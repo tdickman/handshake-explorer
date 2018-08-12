@@ -18,10 +18,10 @@ def get_blocks(offset=0, count=20):
 
     remaining_blocks = count
     blocks = []
-    while remaining_blocks > 0:
+    while remaining_blocks > 0 and current_block >= 0:
         block_details = get_block(current_block)
         blocks.append(block_details)
-        current_block = block_details['prevBlock']
+        current_block -= 1
         remaining_blocks -= 1
 
     return blocks

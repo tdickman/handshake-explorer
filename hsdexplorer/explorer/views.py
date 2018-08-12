@@ -1,6 +1,9 @@
 from django.shortcuts import render
+import math
 
 from . import hsd
+
+PAGE_SIZE = 50
 
 
 def index(request):
@@ -13,9 +16,15 @@ def index(request):
 
 
 def blocks(request, page=1):
-    offset = page * 50 - 50
+    info = hsd.get_info()
+    max_page = math.ceil(info['chain']['height'] / PAGE_SIZE)
+    offset = (page - 1) * PAGE_SIZE
+    pages = [p for p in range(page - 5, page + 5) if p >= 1 and p <= max_page]
     return render(request, 'explorer/blocks.html', context={
-        'blocks': hsd.get_blocks(offset=offset, count=50)
+        'blocks': hsd.get_blocks(offset=offset, count=PAGE_SIZE),
+        'current_page': page,
+        'max_page': max_page,
+        'pages': pages
     })
 
 
