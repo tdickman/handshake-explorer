@@ -6,7 +6,7 @@ urlpatterns = [
     path('', views.index, name='index'),
     re_path('block/(?P<block_hash>[a-f0-9]{64})$', views.block),
     re_path('blocks$', views.blocks),
-    path('blocks/page/<int:page>$', views.blocks),
+    path('blocks/page/<int:page>', views.blocks),
     re_path('tx/(?P<tx_hash>[a-f0-9]{64})$', views.transaction),
     re_path('address/(?P<address>[a-z0-9]{42})$', views.address),
 ]
