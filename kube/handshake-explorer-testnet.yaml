@@ -3,10 +3,41 @@ kind: Ingress
 metadata:
   name: handshake-explorer
   namespace: handshake-testnet
+  annotations:
+    certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+    certmanager.k8s.io/acme-http01-edit-in-place: "true"
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      if ($host = 'www.hnsxplorer.com' ) {
+        rewrite ^ https://hnsxplorer.com$request_uri permanent;
+      }
 spec:
   backend:
     serviceName: handshake-explorer
     servicePort: 8000
+spec:
+  rules:
+  - host: hnsxplorer.com
+    http:
+      paths:
+      - backend:
+          serviceName: handshake-explorer
+          servicePort: 8000
+  - host: www.hnsxplorer.com
+    http:
+      paths:
+      - backend:
+          serviceName: handshake-explorer
+          servicePort: 8000
+  # Note: This should be added after the cert is provisioned by certmanager,
+  # otherwise gke will fail to provision a lb (or use a fake cert to start)
+  tls:
+    - hosts:
+        - "hnsxplorer.com"
+      secretName: hnsxplorer-domain-com
+    - hosts:
+        - "www.hnsxplorer.com"
+      secretName: www-hnsxplorer-domain-com
 ---
 apiVersion: v1
 kind: Service
@@ -25,6 +56,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: handshake-explorer
+  namespace: handshake-testnet
   labels:
     app: handshake-explorer
 spec:
