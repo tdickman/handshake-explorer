@@ -1,0 +1,20 @@
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Height</th>
+      <th scope="col">Age</th>
+      <th scope="col">Transactions</th>
+      <th scope="col">Miner</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for block in blocks %}
+    <tr>
+      <td><a href="/block/{{ block.hash }}">{{ block.height }}</a></td>
+      <td>{{ block.time }}</td>
+      <td>{{ block.txs | length }}</td>
+      <td><a href="/address/{{ block.txs.0.outputs.0.address }}">{{ block.txs.0.outputs.0.address }}</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

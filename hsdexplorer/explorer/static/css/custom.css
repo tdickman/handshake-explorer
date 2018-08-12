@@ -1,0 +1,15 @@
+body {
+  padding-top: 120px;
+}
+
+h1 {
+  padding: 2rem 0;
+}
+
+.row .tx-card {
+  margin-bottom: 2rem;
+}
+
+.tx-arrow {
+  width: 16px;
+}

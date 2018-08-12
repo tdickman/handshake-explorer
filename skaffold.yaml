@@ -1,0 +1,10 @@
+apiVersion: skaffold/v1alpha2
+kind: Config
+build:
+  artifacts:
+    - imageName: gcr.io/hello-world-392/handshake-explorer
+      workspace: .
+deploy:
+  kubectl:
+    manifests:
+      - ./kube/handshake-explorer*

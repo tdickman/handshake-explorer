@@ -1,0 +1,21 @@
+{% load static %}
+<div class="row">
+  <div class="card border-secondary col-lg-12 tx-card">
+    <div class="card-header"><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a></div>
+    <div class="card-body row">
+      <div class="col-sm-5">
+        {% for input in tx.inputs %}
+        <p>{{ input.coin.value }} {{ input.coin.covenant.action }} from <a href="/address/{{ input.coin.address }}">{{ input.coin.address }}</a></p>
+        {% endfor %}
+      </div>
+      <div class="col-sm-1">
+        <img class="tx-arrow" src="{% static "img/right_arrow.png" %}"></img>
+      </div>
+      <div class="col-sm-6">
+        {% for output in tx.outputs %}
+        <p>{{ output.value }} {{ output.covenant.action }} to <a href="/address/{{ output.address }}">{{ output.address }}</a></p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,61 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: handshake-explorer
+  namespace: handshake-testnet
+spec:
+  backend:
+    serviceName: handshake-explorer
+    servicePort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: handshake-explorer
+  namespace: handshake-testnet
+spec:
+  ports:
+    - port: 8000
+      targetPort: 8000
+  selector:
+    app: handshake-explorer
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handshake-explorer
+  labels:
+    app: handshake-explorer
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: handshake-explorer
+  template:
+    metadata:
+      labels:
+        app: handshake-explorer
+    spec:
+      containers:
+      - name: handshake-explorer
+        image: gcr.io/hello-world-392/handshake-explorer
+        ports:
+        - containerPort: 8000
+        env:
+          - name: ENV
+            value: 'production'
+        livenessProbe:
+          httpGet:
+            path: /_/healthz
+            port: 8000
+            httpHeaders:
+            - name: Host
+              value: k8s-healthcheck
+        readinessProbe:
+          httpGet:
+            path: /_/readiness
+            port: 8000
+            httpHeaders:
+            - name: Host
+              value: k8s-healthcheck

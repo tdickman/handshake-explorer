@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: handshake-node
+  namespace: handshake-testnet
+spec:
+  ports:
+    - port: 13037
+      targetPort: 13037
+  selector:
+    app: handshake-node
+  type: ClusterIP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: handshake-testnet
+  labels:
+    app: handshake-node
+  name: handshake-node
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: handshake-node
+  template:
+    metadata:
+      labels:
+        app: handshake-node
+    spec:
+      containers:
+        - image: handshakeorg/hsd:latest
+          name: handshake-node
+          command: ["hsd", "--index-address=true", "--index-tx=true", "--http-host=0.0.0.0", "--no-auth"]
+          volumeMounts:
+            - mountPath: /root/.hsd
+              name: hsd-data
+      restartPolicy: Always
+      volumes:
+        - name: hsd-data
+          emptyDir: {}

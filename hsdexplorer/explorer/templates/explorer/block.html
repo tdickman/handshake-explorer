@@ -1,0 +1,65 @@
+{% extends "explorer/base.html" %}
+{% block title %}Handshake Explorer: Block {{ height }}{% endblock %}
+{% block content %}
+<div class="row">
+  <h1>Block #{{ hsdblock.height }}</h1>
+</div>
+<div class="row">
+  <div class="col-lg-5 col-sm-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Details</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Number of Transactions</td>
+          <td>{{ hsdblock.txs | length }}</td>
+        </tr>
+        <tr>
+          <td>Height</td>
+          <td><a href="/block/{{ hsdblock.hash }}">{{ hsdblock.height }}</a></td>
+        </tr>
+        <tr>
+          <td>Timestamp</td>
+          <td>{{ hsdblock.time }}</td>
+        </tr>
+        <tr>
+          <td>Bits</td>
+          <td>{{ hsdblock.bits }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-7 col-sm-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Hashes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hash</td>
+          <td><a href="/block/{{ hsdblock.hash }}">{{ hsdblock.hash }}</a></td>
+        </tr>
+        <tr>
+          <td>Previous Block</td>
+          <td><a href="/block/{{ hsdblock.prevBlock }}">{{ hsdblock.prevBlock }}</a></td>
+        </tr>
+        <tr>
+          <td>Merkle Root</td>
+          <td>{{ hsdblock.merkleRoot }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+<h1>Transactions</h1>
+{% for tx in hsdblock.txs %}
+  {% include "explorer/_transaction.html" with tx=tx %}
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,8 @@
+{% extends "explorer/base.html" %}
+{% block title %}Handshake Explorer: TX {{ tx.hash }}{% endblock %}
+{% block content %}
+<div class="row">
+  <h1>Transaction</h1>
+</div>
+{% include "explorer/_transaction.html" with tx=tx %}
+{% endblock %}
