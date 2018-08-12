@@ -61,6 +61,10 @@ metadata:
     app: handshake-explorer
 spec:
   replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
   selector:
     matchLabels:
       app: handshake-explorer
