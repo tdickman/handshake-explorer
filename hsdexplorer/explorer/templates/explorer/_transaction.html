@@ -5,7 +5,7 @@
     <div class="card-body row">
       <div class="col-sm-5">
         {% for input in tx.inputs %}
-        <p>{{ input.coin.value }} {{ input.coin.covenant.action }} from <a href="/address/{{ input.coin.address }}">{{ input.coin.address }}</a></p>
+        <p>{% widthratio input.coin.value 1000000 1 %} HNS {{ input.coin.covenant.action }} from <a href="/address/{{ input.coin.address }}">{{ input.coin.address }}</a></p>
         {% endfor %}
       </div>
       <div class="col-sm-1">
@@ -13,7 +13,7 @@
       </div>
       <div class="col-sm-6">
         {% for output in tx.outputs %}
-        <p>{{ output.value }} {{ output.covenant.action }} to <a href="/address/{{ output.address }}">{{ output.address }}</a></p>
+        <p>{% widthratio output.value 1000000 1 %} HNS {{ output.covenant.action }} to <a href="/address/{{ output.address }}">{{ output.address }}</a></p>
         {% endfor %}
       </div>
     </div>
