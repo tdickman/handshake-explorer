@@ -13,7 +13,6 @@ def index(request):
 
 
 def blocks(request, page=1):
-    print(page)
     offset = page * 50 - 50
     return render(request, 'explorer/blocks.html', context={
         'blocks': hsd.get_blocks(offset=offset, count=50)
