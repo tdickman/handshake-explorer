@@ -2,6 +2,8 @@ from django.conf import settings
 import datetime
 import requests
 
+from . import history
+
 
 def get_info():
     return _request('/')
@@ -73,19 +75,20 @@ def _format_output(output_data):
     if action == 'OPEN':
         return {
             'action': 'open',
-            'tld': bytes.fromhex(output_data['covenant']['items'][-1]).decode('utf-8')
+            'name': bytes.fromhex(output_data['covenant']['items'][-1]).decode('utf-8')
         }
     elif action == 'REVEAL':
         return {
             'action': 'reveal',
             'value': output_data['value'],
-            'address': output_data['address']
+            'address': output_data['address'],
+            'name': history.decode_name(output_data['covenant']['items'][0])
         }
     elif action == 'BID':
         return {
             'value': output_data['value'],
             'action': 'bid',
-            'tld': bytes.fromhex(output_data['covenant']['items'][-2]).decode('utf-8')
+            'name': bytes.fromhex(output_data['covenant']['items'][-2]).decode('utf-8')
         }
     elif action == 'NONE':
         return {
@@ -94,14 +97,19 @@ def _format_output(output_data):
             'address': output_data['address']
         }
     elif action == 'REGISTER':
-        print(output_data)
         return {
-            'action': 'register'
+            'action': 'register',
+            'name': history.decode_name(output_data['covenant']['items'][0])
         }
     elif action == 'UPDATE':
-        print(output_data)
         return {
-            'action': 'update'
+            'action': 'update',
+            'name': history.decode_name(output_data['covenant']['items'][0])
+        }
+    elif action == 'REDEEM':
+        return {
+            'action': 'redeem',
+            'name': history.decode_name(output_data['covenant']['items'][0])
         }
     raise Exception('Unknown action encountered {}'.format(action))
 

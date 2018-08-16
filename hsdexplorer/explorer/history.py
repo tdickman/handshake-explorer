@@ -2,6 +2,7 @@ from django.conf import settings
 from google.cloud import datastore
 import hashlib
 import sys
+from functools import lru_cache
 if sys.version_info < (3, 6):
     import sha3
 
@@ -21,6 +22,13 @@ def get_events(name):
 def get_names():
     query = datastore_client.query(kind='HSName')
     return list(query.fetch())
+
+
+@lru_cache()
+def decode_name(name_hash):
+    query = datastore_client.query(kind='HSName')
+    query.add_filter('name_hash', '=', name_hash)
+    return list(query.fetch())[0]['name']
 
 
 def _get_name_hash(name):
