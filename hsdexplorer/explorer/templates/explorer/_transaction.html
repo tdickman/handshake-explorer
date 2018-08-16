@@ -1,20 +1,36 @@
 {% load static %}
+{% load hsd_math %}
 <div class="row">
   <div class="card border-secondary col-lg-12 tx-card">
-    <div class="card-header"><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a></div>
+    <div class="card-header"><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a> <span class="right light">fee {{ tx.fee | to_hns }} HNS</span></div>
     <div class="card-body row">
       <div class="col-sm-5">
+        <ul>
         {% for input in tx.inputs %}
-        <p>{% widthratio input.coin.value 1000000 1 %} HNS {{ input.coin.covenant.action }} from <a href="/address/{{ input.coin.address }}">{{ input.coin.address }}</a></p>
+        {% if input.action == 'mine' %}
+        <li>Mined coins</li>
+        {% else %}
+        <li><a href="/tx/{{ input.source_tx }}">{{ input.value | to_hns }} HNS</a> from <a href="/address/{{ input.address }}">{{ input.address }}</a></li>
+        {% endif %}
         {% endfor %}
+        </ul>
       </div>
       <div class="col-sm-1">
         <img class="tx-arrow" src="{% static "img/right_arrow.png" %}"></img>
       </div>
       <div class="col-sm-6">
+        <ul>
         {% for output in tx.outputs %}
-        <p>{% widthratio output.value 1000000 1 %} HNS {{ output.covenant.action }} to <a href="/address/{{ output.address }}">{{ output.address }}</a></p>
+        <li>
+        {% if output.action == 'transfer' %}{{ output.value | to_hns }} HNS to <a href="/address/{{ output.address }}">{{ output.address }}</a>{% endif %}
+        {% if output.action == 'bid' %}{{ output.value | to_hns }} HNS bid (hidden){% endif %}
+        {% if output.action == 'open' %}auction open for {{ output.tld }}{% endif %}
+        {% if output.action == 'reveal' %}{{ output.value | to_hns }} HNS for auction reveal to <a href="/address/{{ output.address }}">{{ output.address }}</a>{% endif %}
+        {% if output.action == 'register' %}register for ??{% endif %}
+        {% if output.action == 'update' %}update for ??{% endif %}
+        </li>
         {% endfor %}
+        </ul>
       </div>
     </div>
   </div>

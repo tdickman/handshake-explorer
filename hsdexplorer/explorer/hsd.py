@@ -32,7 +32,7 @@ def get_block(block_hash_or_height):
 
 
 def get_transaction(tx_hash):
-    return _request('/tx/{}'.format(tx_hash))
+    return _format_tx(_request('/tx/{}'.format(tx_hash)))
 
 
 def get_address(address):
@@ -47,7 +47,63 @@ def _format_block(block):
 
 def _format_tx(tx):
     tx['mtime'] = datetime.datetime.fromtimestamp(tx['mtime'])
+    tx['inputs'] = [_format_input(i) for i in tx['inputs']]
+    tx['outputs'] = [_format_output(o) for o in tx['outputs']]
     return tx
+
+
+def _format_input(input_data):
+    # Mining
+    if input_data['prevout']['hash'] == '0' * 64:
+        return {
+            'action': 'mine'
+        }
+    action = input_data['coin']['covenant']['action']
+    return {
+        'action': action,
+        'value': input_data['coin']['value'],
+        'address': input_data['coin']['address'],
+        'source_tx': input_data['prevout']['hash']
+    }
+    return input_data
+
+
+def _format_output(output_data):
+    action = output_data['covenant']['action']
+    if action == 'OPEN':
+        return {
+            'action': 'open',
+            'tld': bytes.fromhex(output_data['covenant']['items'][-1]).decode('utf-8')
+        }
+    elif action == 'REVEAL':
+        return {
+            'action': 'reveal',
+            'value': output_data['value'],
+            'address': output_data['address']
+        }
+    elif action == 'BID':
+        return {
+            'value': output_data['value'],
+            'action': 'bid',
+            'tld': bytes.fromhex(output_data['covenant']['items'][-2]).decode('utf-8')
+        }
+    elif action == 'NONE':
+        return {
+            'value': output_data['value'],
+            'action': 'transfer',
+            'address': output_data['address']
+        }
+    elif action == 'REGISTER':
+        print(output_data)
+        return {
+            'action': 'register'
+        }
+    elif action == 'UPDATE':
+        print(output_data)
+        return {
+            'action': 'update'
+        }
+    raise Exception('Unknown action encountered {}'.format(action))
 
 
 def _request(path):

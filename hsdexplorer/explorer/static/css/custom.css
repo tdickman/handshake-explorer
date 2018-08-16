@@ -13,3 +13,11 @@ h1 {
 .tx-arrow {
   width: 16px;
 }
+
+.right {
+  float: right;
+}
+
+.light {
+  color: grey;
+}
