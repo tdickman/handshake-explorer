@@ -9,6 +9,7 @@
         <th scope="col">Block</th>
         <th scope="col">Action</th>
         <th scope="col">Auction Start</th>
+        <th scope="col">Data</th>
         <th scope="col">TX</th>
       </tr>
     </thead>
@@ -18,6 +19,7 @@
         <td><a href="/block/{{ event.block }}">{{ event.block }}</a></td>
         <td>{{ event.action }}</td>
         <td>{{ event.start_height }}</td>
+        <td>{{ event.data }}</td>
         <td><a href="/tx/{{ event.tx_hash }}">TX</a></td>
       </tr>
       {% endfor %}

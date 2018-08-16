@@ -18,6 +18,11 @@ def get_events(name):
     return list(query.fetch())
 
 
+def get_names():
+    query = datastore_client.query(kind='HSName')
+    return list(query.fetch())
+
+
 def _get_name_hash(name):
     m = hashlib.sha3_256()
     m.update(name.encode('ascii'))

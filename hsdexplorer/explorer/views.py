@@ -54,3 +54,10 @@ def name(request, name):
         'name': name,
         'events': events
     })
+
+
+def names(request):
+    names = history_lib.get_names()
+    return render(request, 'explorer/names.html', context={
+        'names': names
+    })

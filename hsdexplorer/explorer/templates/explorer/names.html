@@ -1,0 +1,10 @@
+{% extends "explorer/base.html" %}
+{% block title %}Handshake Explorer: Names{% endblock %}
+{% block content %}
+<h1>Names</h1>
+<ul>
+  {% for entry in names %}
+  <li><a href="/name/{{ entry.name }}">{{ entry.name }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
