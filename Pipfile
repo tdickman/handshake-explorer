@@ -10,6 +10,8 @@ gunicorn = "*"
 django = "*"
 whitenoise = "*"
 requests = "*"
+google-cloud-datastore = "*"
+"pysha3" = "*"
 
 [requires]
 python_version = "3.5"

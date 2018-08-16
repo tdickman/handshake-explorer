@@ -1,7 +1,7 @@
 from django.shortcuts import render
 import math
 
-from . import hsd
+from . import hsd, history as history_lib
 
 PAGE_SIZE = 50
 
@@ -43,4 +43,14 @@ def transaction(request, tx_hash):
 def address(request, address):
     return render(request, 'explorer/address.html', context={
         'address': address
+    })
+
+
+def name(request, name):
+    events = history_lib.get_events(name)
+    if not len(events):
+        raise Exception('Invalid name (no events found)')
+    return render(request, 'explorer/name.html', context={
+        'name': name,
+        'events': events
     })

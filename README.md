@@ -56,3 +56,14 @@ RENEW:
 * lib/blockchain/chaindb.js:1833 - saveNames
 * lib/blockchain/chain.js
 * lib/node/http.js:172 - getCoinsByAddress
+
+# Network Constants
+
+Values for Testnet:
+
+* Open period - 72 blocks (~6 hours) == treeInterval
+
+Values:
+
+* Mainnet - https://github.com/handshake-org/hsd/blob/master/lib/protocol/networks.js#L230
+* Testnet - https://github.com/handshake-org/hsd/blob/master/lib/protocol/networks.js#L683

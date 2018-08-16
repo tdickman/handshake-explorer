@@ -125,6 +125,7 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 HSD_URI = 'http://handshake-node:13037'
+DATASTORE_NAMESPACE = 'HandshakeTestnet'
 
 if os.environ.get('ENV') != 'production':
     DEBUG = True
