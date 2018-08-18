@@ -67,3 +67,8 @@ Values:
 
 * Mainnet - https://github.com/handshake-org/hsd/blob/master/lib/protocol/networks.js#L230
 * Testnet - https://github.com/handshake-org/hsd/blob/master/lib/protocol/networks.js#L683
+
+# Notes
+
+* https://bootswatch.com/sandstone/
+* Alternative theme: https://picnicss.com/tests
