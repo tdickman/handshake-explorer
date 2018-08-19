@@ -2,7 +2,7 @@
 {% block title %}Handshake Explorer: Address {{ address }}{% endblock %}
 {% block content %}
 <h1>Transactions</h1>
-{% for tx in hsdblock.txs %}
+{% for tx in txs %}
   {% include "explorer/_transaction.html" with tx=tx %}
 {% endfor %}
 {% endblock %}

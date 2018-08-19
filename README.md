@@ -51,6 +51,10 @@ RENEW:
 * ns.height -> little endian uint32 - indicates open block of auction
 * renewalBlock -> little endian uint32 - indicates open block of auction
 
+# Auction Process
+
+OPEN -(? blocks)-> BID -(? blocks)-> REVEAL|REDEEM ->
+
 # HSD-forked Interesting Functions
 
 * lib/blockchain/chaindb.js:1833 - saveNames
