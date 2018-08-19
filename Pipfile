@@ -12,6 +12,7 @@ whitenoise = "*"
 requests = "*"
 google-cloud-datastore = "*"
 "pysha3" = "*"
+django-tz-detect = "*"
 
 [requires]
 python_version = "3.5"

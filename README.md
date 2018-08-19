@@ -1,3 +1,10 @@
+# Setup
+
+```
+pipenv shell --three
+pipenv install --skip-lock
+```
+
 # Examples
 
 * [Reveal](http://localhost:8000/block/12589fe9cf320535eadbc1e570bdcc1365c225f9a6c9d2ee1cecd400a4b05e13)

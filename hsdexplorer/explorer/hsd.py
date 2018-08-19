@@ -1,5 +1,6 @@
 from django.conf import settings
 import datetime
+import pytz
 import requests
 
 from . import history
@@ -42,7 +43,7 @@ def get_address_txs(address):
 
 
 def _format_block(block):
-    block['time'] = datetime.datetime.fromtimestamp(block['time'])
+    block['time'] = datetime.datetime.fromtimestamp(block['time'], tz=pytz.UTC)
     block['txs'] = [_format_tx(tx) for tx in block['txs']]
     return block
 
