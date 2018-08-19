@@ -10,6 +10,7 @@
         <th scope="col">Action</th>
         <th scope="col">Auction Start</th>
         <th scope="col">Data</th>
+        <th scope="col">Value</th>
         <th scope="col">TX</th>
       </tr>
     </thead>
@@ -20,6 +21,7 @@
         <td>{{ event.action }}</td>
         <td>{{ event.start_height }}</td>
         <td>{{ event.data }}</td>
+        <td>{{ event.value }}{% if event.value is not None %} HNS{% endif %}</td>
         <td><a href="/tx/{{ event.tx_hash }}">TX</a></td>
       </tr>
       {% endfor %}
