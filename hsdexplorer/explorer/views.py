@@ -4,7 +4,7 @@ import math
 from . import hsd, history as history_lib
 
 BLOCKS_PAGE_SIZE = 50
-TXS_PAGE_SIZE = 10
+TXS_PAGE_SIZE = 20
 
 
 def index(request):
