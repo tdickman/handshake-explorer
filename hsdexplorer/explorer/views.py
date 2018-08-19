@@ -42,7 +42,7 @@ def transaction(request, tx_hash):
 
 def address(request, address):
     return render(request, 'explorer/address.html', context={
-        'address': address
+        'txs': hsd.get_address_tx(address)
     })
 
 

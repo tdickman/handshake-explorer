@@ -37,8 +37,8 @@ def get_transaction(tx_hash):
     return _format_tx(_request('/tx/{}'.format(tx_hash)))
 
 
-def get_address(address):
-    return _request('/coin/address/{}'.format(address))
+def get_address_tx(address):
+    return _request('/tx/address/{}'.format(address))
 
 
 def _format_block(block):
