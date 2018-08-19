@@ -12,4 +12,5 @@ urlpatterns = [
     path('name/<str:name>', views.name),
     re_path('tx/(?P<tx_hash>[a-f0-9]{64})$', views.transaction),
     re_path('address/(?P<address>[a-z0-9]{42})$', views.address),
+    re_path('address/(?P<address>[a-z0-9]{42})/page/(?P<page>\d+)$', views.address),
 ]

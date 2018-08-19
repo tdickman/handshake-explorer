@@ -5,4 +5,5 @@
 {% for tx in txs %}
   {% include "explorer/_transaction.html" with tx=tx %}
 {% endfor %}
+{% include "explorer/_pagination.html" with url_prefix="/address/"|add:address %}
 {% endblock %}

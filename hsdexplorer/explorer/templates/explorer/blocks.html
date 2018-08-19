@@ -5,24 +5,8 @@
 	<div class="row">
 		<div class="col-lg-12">
 		<h1>Latest Blocks</h1>
-    {% include "explorer/_block-table.html" with blocks=blocks %}
-    <ul class="pagination pagination">
-      {% if current_page != 1 %}
-			<li class="page-item">
-				<a class="page-link" href="/blocks/page/1">«</a>
-			</li>
-      {% endif %}
-      {% for page in pages %}
-      <li class="page-item{% if page == current_page %} active{% endif %}">
-        <a class="page-link" href="/blocks/page/{{ page }}">{{ page }}</a>
-			</li>
-      {% endfor %}
-      {% if current_page != max_page %}
-			<li class="page-item">
-        <a class="page-link" href="/blocks/page/{{ max_page }}">»</a>
-			</li>
-      {% endif %}
-		</ul>
-	</div>
+        {% include "explorer/_block-table.html" with blocks=blocks %}
+        {% include "explorer/_pagination.html" with url_prefix="/blocks" %}
+    </div>
 </div>
 {% endblock %}

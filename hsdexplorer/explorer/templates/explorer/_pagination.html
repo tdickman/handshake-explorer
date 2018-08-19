@@ -1,0 +1,18 @@
+{# Required variables: current_page, pages, max_page, url_prefix #}
+<ul class="pagination pagination">
+  {% if current_page != 1 %}
+  <li class="page-item">
+    <a class="page-link" href="{{ url_prefix }}/page/1">«</a>
+  </li>
+  {% endif %}
+  {% for page in pages %}
+  <li class="page-item{% if page == current_page %} active{% endif %}">
+    <a class="page-link" href="{{ url_prefix }}/page/{{ page }}">{{ page }}</a>
+  </li>
+  {% endfor %}
+  {% if current_page != max_page %}
+  <li class="page-item">
+    <a class="page-link" href="{{ url_prefix }}/page/{{ max_page }}">»</a>
+  </li>
+  {% endif %}
+</ul>
