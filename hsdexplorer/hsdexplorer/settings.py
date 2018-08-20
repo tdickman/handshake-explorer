@@ -123,6 +123,10 @@ STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+OPEN_PERIOD = 73
+BIDDING_PERIOD = 288
+REVEAL_PERIOD = 576
+
 HSD_URI = 'http://handshake-node:13037'
 DATASTORE_NAMESPACE = 'HandshakeTestnet'
 

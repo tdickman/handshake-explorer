@@ -86,6 +86,7 @@ Values:
 
 # TODO
 
+* Auctions by state
 * Address search tool
 * Show mempool
 * Show block in transaction view (block tx was processed in)

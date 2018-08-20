@@ -11,6 +11,24 @@ def get_info():
     return _request('/')
 
 
+def get_auction_state(open_block):
+    info = get_info()
+    blocks_since_open = info['chain']['height'] - open_block
+
+    return {
+        'open_completed': max(min(blocks_since_open, settings.OPEN_PERIOD), 0),
+        'open_total': settings.OPEN_PERIOD,
+        'bidding_completed': max(min(
+            blocks_since_open - settings.OPEN_PERIOD,
+            settings.BIDDING_PERIOD), 0),
+        'bidding_total': settings.BIDDING_PERIOD,
+        'reveal_completed': max(min(
+            blocks_since_open - settings.OPEN_PERIOD - settings.BIDDING_PERIOD,
+            settings.REVEAL_PERIOD), 0),
+        'reveal_total': settings.REVEAL_PERIOD
+    }
+
+
 def get_blocks(offset=0, count=20):
     """
     Retrieve the `count` previous blocks, starting at `start`.

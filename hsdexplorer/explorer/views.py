@@ -60,9 +60,13 @@ def name(request, name):
     events = history_lib.get_events(name)
     if not len(events):
         raise Exception('Invalid name (no events found)')
+    # Find closest OPEN event
+    open_block = next(e for e in events if e['action'] == 'OPEN')['block']
+    auction_state = hsd.get_auction_state(open_block)
     return render(request, 'explorer/name.html', context={
         'name': name,
-        'events': events
+        'events': events,
+        'auction_state': auction_state
     })
 
 

@@ -2,8 +2,17 @@
 {% load hsd_math %}
 {% block title %}Handshake Explorer: Name {{ name }}{% endblock %}
 {% block content %}
-<h1>Events for tld .{{ name }}</h1>
 <div class="row">
+  <h1> .{{ name }} TLD</h1>
+</div>
+<div class="row">
+  <ul>
+    <li>Open state ({{ auction_state.open_completed }} / {{ auction_state.open_total }})
+    <li>Bidding state ({{ auction_state.bidding_completed }} / {{ auction_state.bidding_total }})
+    <li>Reveal state ({{ auction_state.reveal_completed }} / {{ auction_state.reveal_total }})
+</div>
+<div class="row">
+  <h1>Events</h1>
   <table class="table table-hover">
     <thead>
       <tr>
