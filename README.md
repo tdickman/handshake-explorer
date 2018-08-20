@@ -83,3 +83,12 @@ Values:
 
 * https://bootswatch.com/sandstone/
 * Alternative theme: https://picnicss.com/tests
+
+# TODO
+
+* Address search tool
+* Show mempool
+* Show block in transaction view (block tx was processed in)
+* Show address balance on transaction page
+* Show raw transaction (or link to show) on tx page
+* Show transaction transition

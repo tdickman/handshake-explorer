@@ -22,13 +22,14 @@
         <ul>
         {% for output in tx.outputs %}
         <li>
-        {% if output.action == 'transfer' %}{{ output.value | to_hns }} HNS to <a href="/address/{{ output.address }}">{{ output.address }}</a>{% endif %}
-        {% if output.action == 'bid' %}{{ output.value | to_hns }} HNS bid for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'open' %}auction open for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'reveal' %}{{ output.value | to_hns }} HNS for auction reveal of <a href="/name/{{ output.name }}">{{ output.name }}</a> to <a href="/address/{{ output.address }}">{{ output.address }}</a>{% endif %}
-        {% if output.action == 'redeem' %}auction redeem of <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'register' %}register for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'update' %}update for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
+        {% if output.action == 'NONE' %}{{ output.value | to_hns }} HNS to <a href="/address/{{ output.address }}">{{ output.address }}</a>{% endif %}
+        {% if output.action == 'OPEN' %}auction open for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
+        {% if output.action == 'BID' %}{{ output.value | to_hns }} HNS bid for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
+        {% if output.action == 'REVEAL' %}{{ output.value | to_hns }} HNS for auction reveal of <a href="/name/{{ output.name }}">{{ output.name }}</a> to <a href="/address/{{ output.address }}">{{ output.address }}</a>{% endif %}
+        {% if output.action == 'REGISTER' %}register for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
+        {% if output.action == 'REDEEM' %}{{ output.value | to_hns }} HNS for auction redeem of <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
+        {% if output.action == 'UPDATE' %}update for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
+        {% if output.action == 'RENEW' %}update for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
         </li>
         {% endfor %}
         </ul>

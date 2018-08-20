@@ -25,7 +25,7 @@ def get_names():
 
 
 @lru_cache()
-def decode_name(name_hash):
+def lookup_name(name_hash):
     query = datastore_client.query(kind='HSName')
     query.add_filter('name_hash', '=', name_hash)
     return list(query.fetch())[0]['name']

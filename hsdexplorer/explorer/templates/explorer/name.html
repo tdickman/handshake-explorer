@@ -1,4 +1,5 @@
 {% extends "explorer/base.html" %}
+{% load hsd_math %}
 {% block title %}Handshake Explorer: Name {{ name }}{% endblock %}
 {% block content %}
 <h1>Events for tld .{{ name }}</h1>
@@ -21,7 +22,7 @@
         <td>{{ event.action }}</td>
         <td>{{ event.start_height }}</td>
         <td>{{ event.data }}</td>
-        <td>{{ event.value }}{% if event.value is not None %} HNS{% endif %}</td>
+        <td>{{ event.value | to_hns }}{% if event.value is not None %} HNS{% endif %}</td>
         <td><a href="/tx/{{ event.tx_hash }}">TX</a></td>
       </tr>
       {% endfor %}

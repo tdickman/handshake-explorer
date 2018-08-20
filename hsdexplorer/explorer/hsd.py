@@ -1,4 +1,5 @@
 from django.conf import settings
+import codecs
 import datetime
 import pytz
 import requests
@@ -71,48 +72,55 @@ def _format_input(input_data):
     return input_data
 
 
-def _format_output(output_data):
-    action = output_data['covenant']['action']
+def _format_output(output):
+    items = output['covenant']['items']
+    action = output['covenant']['action']
+    resp = {'action': action}
+
+    # Process all other actions
+    if action == 'NONE':
+        resp['value'] = output['value']
+        resp['address'] = output['address']
+        return resp
+
+    resp['name_hash'] = items[0]
     if action == 'OPEN':
-        return {
-            'action': 'open',
-            'name': bytes.fromhex(output_data['covenant']['items'][-1]).decode('utf-8')
-        }
-    elif action == 'REVEAL':
-        return {
-            'action': 'reveal',
-            'value': output_data['value'],
-            'address': output_data['address'],
-            'name': history.decode_name(output_data['covenant']['items'][0])
-        }
+        # items[1] == 00000000
+        resp['name'] = _decode_name(items[2])
     elif action == 'BID':
-        return {
-            'value': output_data['value'],
-            'action': 'bid',
-            'name': bytes.fromhex(output_data['covenant']['items'][-2]).decode('utf-8')
-        }
-    elif action == 'NONE':
-        return {
-            'value': output_data['value'],
-            'action': 'transfer',
-            'address': output_data['address']
-        }
+        resp['start_height'] = _decode_u32(items[1])
+        resp['name'] = _decode_name(items[2])
+        # items[3] == blind
+        resp['value'] = output['value']
+    elif action == 'REVEAL':
+        resp['start_height'] = _decode_u32(items[1])
+        resp['nonce'] = items[2]
+        resp['value'] = output['value']
     elif action == 'REGISTER':
-        return {
-            'action': 'register',
-            'name': history.decode_name(output_data['covenant']['items'][0])
-        }
-    elif action == 'UPDATE':
-        return {
-            'action': 'update',
-            'name': history.decode_name(output_data['covenant']['items'][0])
-        }
+        resp['start_height'] = _decode_u32(items[1])
     elif action == 'REDEEM':
-        return {
-            'action': 'redeem',
-            'name': history.decode_name(output_data['covenant']['items'][0])
-        }
-    raise Exception('Unknown action encountered {}'.format(action))
+        resp['start_height'] = _decode_u32(items[1])
+        resp['value'] = output['value']
+    elif action == 'UPDATE':
+        resp['start_height'] = _decode_u32(items[1])
+        # resp['data'] = _decode_resource(items[2])
+    elif action == 'RENEW':
+        resp['start_height'] = _decode_u32(items[1])
+        resp['renewal_block_hash'] = _decode_u32(items[2])
+
+    # Lookup the name if it isn't included in the transaction
+    if 'name' not in resp:
+        resp['name'] = history.lookup_name(resp['name_hash'])
+    return resp
+
+
+def _decode_u32(hex_val):
+    """Decode the specified little endian hex value into a u32."""
+    return int(codecs.encode(codecs.decode(hex_val, 'hex')[::-1], 'hex').decode(), 16)
+
+
+def _decode_name(hex_val):
+    return bytes.fromhex(hex_val).decode('utf-8')
 
 
 def _request(path):
