@@ -64,6 +64,9 @@ OPEN -(73 blocks)-> BID -(288 blocks)-> REVEAL|REDEEM -(576 blocks)-> Completed
 
 Notes:
 * Transaction value during the reveal phase == the amount of our actual bid
+* First update sent after winning comes through as a 'register' event - it
+  looks like this contains tld data that I am currently not parsing
+* Not clear when we get our refund
 
 # HSD-forked Interesting Functions
 
@@ -96,3 +99,4 @@ Values:
 * Show address balance on transaction page
 * Show raw transaction (or link to show) on tx page
 * Show transaction transition
+* Add height to transaction view

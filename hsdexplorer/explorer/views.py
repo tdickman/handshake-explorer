@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 import math
 import re
 
-from . import hsd, history as history_lib, utils
+from . import hsd, history as history_lib, math as hsdmath, utils
 
 BLOCKS_PAGE_SIZE = 50
 TXS_PAGE_SIZE = 20
@@ -48,8 +48,13 @@ def address(request, address, page=1):
     max_page = math.ceil(len(txs) / TXS_PAGE_SIZE)
     offset = (page - 1) * TXS_PAGE_SIZE
     pages = [p for p in range(page - 5, page + 5) if p >= 1 and p <= max_page]
+    received = hsdmath.total_received(txs, address)
+    sent = hsdmath.total_sent(txs, address)
     return render(request, 'explorer/address.html', context={
         'address': address,
+        'total_received': received,
+        'total_sent': sent,
+        'total_balance': received - sent,
         'txs': txs[offset:offset + TXS_PAGE_SIZE],
         'current_page': page,
         'max_page': max_page,
