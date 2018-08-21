@@ -2,7 +2,6 @@
 {% load hsd_math %}
 {% block title %}Handshake Explorer: Address {{ address }}{% endblock %}
 {% block content %}
-<h1>Transactions</h1>
 <div class="row">
   <div class="col-lg-7 col-sm-12">
     <table class="table">
@@ -49,6 +48,7 @@
     </table>
   </div>
 </div>
+<h1>Transactions</h1>
 {% for tx in txs %}
   {% include "explorer/_transaction.html" with tx=tx %}
 {% endfor %}

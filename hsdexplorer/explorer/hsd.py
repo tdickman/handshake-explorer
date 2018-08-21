@@ -58,7 +58,7 @@ def get_transaction(tx_hash):
 
 
 def get_address_txs(address):
-    return [_format_tx(tx) for tx in _request('/tx/address/{}'.format(address))]
+    return [_format_tx(tx, address=address) for tx in _request('/tx/address/{}'.format(address))]
 
 
 def _format_block(block):
@@ -67,10 +67,20 @@ def _format_block(block):
     return block
 
 
-def _format_tx(tx):
-    tx['mtime'] = datetime.datetime.fromtimestamp(tx['mtime'])
+def _format_tx(tx, address=None):
+    """
+    Format a transaction. If `address` is provided, include the transaction
+    direction relative to that address.
+    """
+    tx['time'] = datetime.datetime.fromtimestamp(tx['mtime'])
     tx['inputs'] = [_format_input(i) for i in tx['inputs']]
     tx['outputs'] = [_format_output(o) for o in tx['outputs']]
+    if address:
+        tx['direction'] = None
+        if len([o for o in tx['outputs'] if o.get('address') == address]):
+            tx['direction'] = 'incoming' 
+        if len([i for i in tx['inputs'] if i.get('address') == address]):
+            tx['direction'] = 'outgoing' 
     return tx
 
 

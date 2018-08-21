@@ -16,7 +16,13 @@
         </ul>
       </div>
       <div class="col-sm-1">
-        <img class="tx-arrow" src="{% static "img/right_arrow.png" %}"></img>
+        {% if tx.direction == 'incoming' %}
+          <img class="tx-arrow" src="{% static "img/right_green_arrow.png" %}"></img>
+        {% elif tx.direction == 'outgoing' %}
+          <img class="tx-arrow" src="{% static "img/right_red_arrow.png" %}"></img>
+        {% else %}
+          <img class="tx-arrow" src="{% static "img/right_black_arrow.png" %}"></img>
+        {% endif %}
       </div>
       <div class="col-sm-6">
         <ul>
