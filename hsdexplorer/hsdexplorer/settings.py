@@ -133,4 +133,5 @@ DATASTORE_NAMESPACE = 'HandshakeTestnet'
 if os.environ.get('ENV') != 'production':
     DEBUG = True
     ALLOWED_HOSTS.append('localhost')
+    ALLOWED_HOSTS.append('192.168.1.9')
     HSD_URI = 'http://localhost:13037'
