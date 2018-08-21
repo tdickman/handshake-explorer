@@ -2,7 +2,7 @@
 {% load hsd_math %}
 <div class="row">
   <div class="card border-secondary col-lg-12 tx-card">
-    <div class="card-header"><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a> <span class="right light">fee {{ tx.fee | to_hns }} HNS</span></div>
+    <div class="card-header"><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a> <span class="right light">{{ tx.time }}</span></div>
     <div class="card-body row">
       <div class="col-sm-5">
         <ul>
@@ -40,6 +40,7 @@
         {% endfor %}
         </ul>
       </div>
+      <span class="right full light">fee {{ tx.fee | to_hns }} HNS</span>
     </div>
   </div>
 </div>

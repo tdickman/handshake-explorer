@@ -16,6 +16,11 @@ h1 {
 
 .right {
   float: right;
+  text-align: right;
+}
+
+.full {
+  width: 100%;
 }
 
 .light {
