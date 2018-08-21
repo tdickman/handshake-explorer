@@ -35,3 +35,8 @@ def _get_name_hash(name):
     m = hashlib.sha3_256()
     m.update(name.encode('ascii'))
     return m.hexdigest()
+
+
+def get_name(name):
+    key = datastore_client.key('HSName', name)
+    return datastore_client.get(key)

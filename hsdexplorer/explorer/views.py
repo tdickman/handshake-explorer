@@ -1,7 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 import math
+import re
 
-from . import hsd, history as history_lib
+from . import hsd, history as history_lib, utils
 
 BLOCKS_PAGE_SIZE = 50
 TXS_PAGE_SIZE = 20
@@ -75,3 +76,15 @@ def names(request):
     return render(request, 'explorer/names.html', context={
         'names': names
     })
+
+
+def search(request):
+    value = request.GET['value']
+    if utils.is_address(value):
+        return redirect('address', address=value)
+    if utils.is_block(value):
+        return redirect('block', block_hash=value)
+    if utils.is_transaction(value):
+        return redirect('transaction', tx_hash=value)
+    if utils.is_name(value):
+        return redirect('name', name=value)

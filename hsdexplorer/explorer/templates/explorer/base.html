@@ -31,6 +31,10 @@
 
           <ul class="nav navbar-nav ml-auto">
           </ul>
+          <form class="form-inline my-2 my-lg-0" action="/search">
+            <input class="form-control mr-sm-2" type="text" name="value" placeholder="Name, transaction, etc">
+            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+          </form>
 
         </div>
       </div>
@@ -38,7 +42,9 @@
 
     <div class="container">
     {% block content %}{% endblock %}
-	</div>
+    </div>
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
     {% tz_detect %}
   </body>
 </html>

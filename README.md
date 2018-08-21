@@ -60,7 +60,10 @@ RENEW:
 
 # Auction Process
 
-OPEN -(? blocks)-> BID -(? blocks)-> REVEAL|REDEEM ->
+OPEN -(73 blocks)-> BID -(288 blocks)-> REVEAL|REDEEM -(576 blocks)-> Completed
+
+Notes:
+* Transaction value during the reveal phase == the amount of our actual bid
 
 # HSD-forked Interesting Functions
 
@@ -87,7 +90,7 @@ Values:
 # TODO
 
 * Auctions by state
-* Address search tool
+* X Address search tool
 * Show mempool
 * Show block in transaction view (block tx was processed in)
 * Show address balance on transaction page
