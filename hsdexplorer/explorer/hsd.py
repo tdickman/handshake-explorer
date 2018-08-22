@@ -103,14 +103,16 @@ def _format_input(input_data):
 def _format_output(output):
     items = output['covenant']['items']
     action = output['covenant']['action']
-    resp = {'action': action}
+    resp = {
+        'action': action,
+        'address': output['address']
+    }
 
-    # Process all other actions
     if action == 'NONE':
         resp['value'] = output['value']
-        resp['address'] = output['address']
         return resp
 
+    # Process all other actions
     resp['name_hash'] = items[0]
     if action == 'OPEN':
         # items[1] == 00000000
