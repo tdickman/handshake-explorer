@@ -1,13 +1,15 @@
 from django.conf import settings
 from google.cloud import datastore
 import hashlib
+import os
 import sys
 from functools import lru_cache
 if sys.version_info < (3, 6):
     import sha3
 
 
-datastore_client = datastore.Client(namespace=settings.DATASTORE_NAMESPACE)
+if not os.environ.get('COLLECTSTATIC'):
+    datastore_client = datastore.Client(namespace=settings.DATASTORE_NAMESPACE)
 
 
 def get_events(name):
