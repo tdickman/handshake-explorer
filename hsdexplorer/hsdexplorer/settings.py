@@ -130,8 +130,17 @@ REVEAL_PERIOD = 576
 HSD_URI = 'http://handshake-node:13037'
 DATASTORE_NAMESPACE = 'HandshakeTestnet'
 
+# Celery
+CELERY_REDIS_HOST = 'localhost'
+CELERY_REDIS_PORT = 6379
+
 if os.environ.get('ENV') != 'production':
     DEBUG = True
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('192.168.1.9')
     HSD_URI = 'http://localhost:13037'
+    CELERY_REDIS_HOST = 'localhost'
+    CELERY_REDIS_PORT = 6379
+
+CELERY_BROKER_URL = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
+CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)

@@ -2,7 +2,8 @@ from django.shortcuts import redirect, render
 import math
 import re
 
-from . import hsd, history as history_lib, math as hsdmath, utils
+from . import hsd, math as hsdmath, utils
+import explorer.history.read
 
 BLOCKS_PAGE_SIZE = 50
 TXS_PAGE_SIZE = 20
@@ -63,7 +64,7 @@ def address(request, address, page=1):
 
 
 def name(request, name):
-    events = history_lib.get_events(name)
+    events = explorer.history.read.get_events(name)
     if not len(events):
         raise Exception('Invalid name (no events found)')
     # Find closest OPEN event
@@ -77,7 +78,7 @@ def name(request, name):
 
 
 def names(request):
-    names = history_lib.get_names()
+    names = explorer.history.read.get_names()
     return render(request, 'explorer/names.html', context={
         'names': names
     })

@@ -1,7 +1,8 @@
 import json
 import re
 
-from . import hsd, history
+from . import hsd
+import explorer.history.read
 
 
 def is_address(value):
@@ -29,4 +30,4 @@ def is_transaction(value):
 
 
 def is_name(value):
-    return history.get_name(value)
+    return explorer.history.read.get_name(value)

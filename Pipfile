@@ -13,6 +13,8 @@ requests = "*"
 google-cloud-datastore = "*"
 "pysha3" = "*"
 django-tz-detect = "*"
+celery = "*"
+redis = "*"
 
 [requires]
 python_version = "3.5"

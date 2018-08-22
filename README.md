@@ -5,6 +5,14 @@ pipenv shell --three
 pipenv install --skip-lock
 ```
 
+# Running
+
+```
+cd hsdexplorer
+python manage.py runserver 0.0.0.0:8000
+celery -A hsdexplorer worker -l info -B  # -B is optional -> used if celery beat is enabled
+```
+
 # Examples
 
 * [Reveal](http://localhost:8000/block/12589fe9cf320535eadbc1e570bdcc1365c225f9a6c9d2ee1cecd400a4b05e13)

@@ -1,10 +1,11 @@
 from django.conf import settings
 import codecs
 import datetime
+import json
 import pytz
 import requests
 
-from . import history
+import explorer.history.read
 
 
 def get_info():
@@ -50,7 +51,10 @@ def get_blocks(offset=0, count=20):
 
 
 def get_block(block_hash_or_height):
-    return _format_block(_request('/block/{}'.format(block_hash_or_height)))
+    try:
+        return _format_block(_request('/block/{}'.format(block_hash_or_height)))
+    except json.decoder.JSONDecodeError:
+        return
 
 
 def get_transaction(tx_hash):
@@ -140,7 +144,7 @@ def _format_output(output):
 
     # Lookup the name if it isn't included in the transaction
     if 'name' not in resp:
-        resp['name'] = history.lookup_name(resp['name_hash'])
+        resp['name'] = explorer.history.read.lookup_name(resp['name_hash'])
     return resp
 
 
