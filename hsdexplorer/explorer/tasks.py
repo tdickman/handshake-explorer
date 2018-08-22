@@ -12,8 +12,7 @@ REDIS_CLIENT = redis.Redis(host=settings.CELERY_REDIS_HOST, port=settings.CELERY
 @shared_task
 def process_next_block():
     """
-    TODO:
-    * Update to process multiple blocks at a time if behind
+	Process the next available blocks
     """
     # Ignore the job if we are already processing another job like this
     lock = REDIS_CLIENT.lock('celery_process_next_block_lock', timeout=120, blocking_timeout=0)

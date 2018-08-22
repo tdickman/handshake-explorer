@@ -131,7 +131,7 @@ HSD_URI = 'http://handshake-node:13037'
 DATASTORE_NAMESPACE = 'HandshakeTestnet'
 
 # Celery
-CELERY_REDIS_HOST = 'localhost'
+CELERY_REDIS_HOST = 'redis'
 CELERY_REDIS_PORT = 6379
 
 if os.environ.get('ENV') != 'production':

@@ -95,3 +95,61 @@ spec:
             httpHeaders:
             - name: Host
               value: k8s-healthcheck
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handshake-explorer-celery-beat
+  namespace: handshake-testnet
+  labels:
+    app: handshake-explorer-celery-beat
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: handshake-explorer-celery-beat
+  template:
+    metadata:
+      labels:
+        app: handshake-explorer-celery-beat
+    spec:
+      containers:
+      - name: handshake-explorer-celery-beat
+        image: gcr.io/hello-world-392/handshake-explorer
+        command: ["celery", "-A", "hsdexplorer", "beat", "-l", "info"]
+        env:
+          - name: ENV
+            value: 'production'
+          - name: PYTHONUNBUFFERED
+            value: 'true'
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: handshake-explorer-celery
+  namespace: handshake-testnet
+  labels:
+    app: handshake-explorer-celery
+spec:
+  strategy:
+    type: Recreate
+  replicas: 1
+  selector:
+    matchLabels:
+      app: handshake-explorer-celery
+  template:
+    metadata:
+      labels:
+        app: handshake-explorer-celery
+    spec:
+      containers:
+      - name: handshake-explorer-celery
+        image: gcr.io/hello-world-392/handshake-explorer
+        command: ["celery", "-A", "hsdexplorer", "worker", "-l", "info"]
+        env:
+          - name: ENV
+            value: 'production'
+          - name: PYTHONUNBUFFERED
+            value: 'true'

@@ -1,8 +1,10 @@
 from django.conf import settings
 from google.cloud import datastore
+import os
 
 
-datastore_client = datastore.Client(namespace=settings.DATASTORE_NAMESPACE)
+if not os.environ.get('COLLECTSTATIC'):
+    datastore_client = datastore.Client(namespace=settings.DATASTORE_NAMESPACE)
 
 
 def get_max_block():
