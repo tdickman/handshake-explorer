@@ -92,12 +92,11 @@ Values:
 
 # TODO
 
-* Auctions by state
+* X Auctions by state
 * X Address search tool
 * Show mempool
-* Show block in transaction view (block tx was processed in)
 * Show address balance on transaction page
 * Show raw transaction (or link to show) on tx page
-* Show transaction transition
+* X Show transaction transition
 * Add height to transaction view
 * Show status of transaction (pending)
