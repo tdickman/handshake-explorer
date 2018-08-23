@@ -12,13 +12,16 @@ if not os.environ.get('COLLECTSTATIC'):
     datastore_client = datastore.Client(namespace=settings.DATASTORE_NAMESPACE)
 
 
-def get_events(name):
+def get_events(name=None, limit=50, offset=0):
     """Retrieve event history for a given name."""
-    name_hash = _get_name_hash(name)
     query = datastore_client.query(kind='HSEvent')
-    query.add_filter('name_hash', '=', name_hash)
-    query.order = ['-block', '-tx_index']
-    return list(query.fetch())
+    if name:
+        name_hash = _get_name_hash(name)
+        query.add_filter('name_hash', '=', name_hash)
+        query.order = ['-block', '-tx_index']
+    else:
+        query.order = ['-block']
+    return list(query.fetch(limit=limit, offset=offset))
 
 
 def get_names():
@@ -26,7 +29,7 @@ def get_names():
     return list(query.fetch())
 
 
-@lru_cache()
+@lru_cache(maxsize=2048)
 def lookup_name(name_hash):
     query = datastore_client.query(kind='HSName')
     query.add_filter('name_hash', '=', name_hash)

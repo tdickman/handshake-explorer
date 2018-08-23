@@ -7,14 +7,35 @@ import explorer.history.read
 
 BLOCKS_PAGE_SIZE = 50
 TXS_PAGE_SIZE = 20
+EVENTS_PAGE_SIZE = 50
 
 
 def index(request):
     info = hsd.get_info()
+    events = explorer.history.read.get_events(limit=5)
+    # Add some additional details to the events
+    for event in events:
+        event['name'] = explorer.history.read.lookup_name(event['name_hash'])
     return render(request, 'explorer/index.html', context={
         'tip': info['chain']['tip'],
         'height': info['chain']['height'],
-        'blocks': hsd.get_blocks(count=5)
+        'blocks': hsd.get_blocks(count=5),
+        'events': events
+    })
+
+
+def events(request, page=1):
+    offset = (page - 1) * EVENTS_PAGE_SIZE
+    pages = [p for p in range(page - 5, page + 5) if p >= 1]
+    events = explorer.history.read.get_events(limit=EVENTS_PAGE_SIZE, offset=offset)
+    # Add some additional details to the events
+    for event in events:
+        event['name'] = explorer.history.read.lookup_name(event['name_hash'])
+
+    return render(request, 'explorer/events.html', context={
+        'events': events,
+        'current_page': page,
+        'pages': pages
     })
 
 
@@ -64,7 +85,7 @@ def address(request, address, page=1):
 
 
 def name(request, name):
-    events = explorer.history.read.get_events(name)
+    events = explorer.history.read.get_events(name=name)
     if not len(events):
         raise Exception('Invalid name (no events found)')
     # Find closest OPEN event

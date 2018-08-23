@@ -1,0 +1,26 @@
+{# Required variables: events #}
+{% load hsd_math %}
+<table class="table table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Block</th>
+      <th scope="col">Action</th>
+      <th scope="col">Auction Start</th>
+      <th scope="col">Data</th>
+      <th scope="col">Value</th>
+      <th scope="col">TX</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for event in events %}
+    <tr>
+      <td><a href="/block/{{ event.block }}">{{ event.block }}</a></td>
+      <td>{{ event.action }}</td>
+      <td>{{ event.start_height }}</td>
+      <td>{{ event.data }}</td>
+      <td>{{ event.value | to_hns }}{% if event.value is not None %} HNS{% endif %}</td>
+      <td><a href="/tx/{{ event.tx_hash }}">TX</a></td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>

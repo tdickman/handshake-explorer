@@ -10,7 +10,7 @@
     <a class="page-link" href="{{ url_prefix }}/page/{{ page }}">{{ page }}</a>
   </li>
   {% endfor %}
-  {% if current_page != max_page %}
+  {% if max_page and current_page != max_page %}
   <li class="page-item">
     <a class="page-link" href="{{ url_prefix }}/page/{{ max_page }}">»</a>
   </li>
