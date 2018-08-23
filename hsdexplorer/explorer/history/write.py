@@ -12,7 +12,7 @@ def get_max_block():
     query = datastore_client.query(kind='HSBlock')
     query.order = ['-height']
     try:
-        return list(query.fetch())[0]['height']
+        return list(query.fetch(limit=1))[0]['height']
     except TypeError:
         return 0
 
