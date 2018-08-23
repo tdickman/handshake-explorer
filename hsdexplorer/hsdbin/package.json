@@ -1,0 +1,15 @@
+{
+  "name": "hsd",
+  "version": "1.0.0",
+  "description": "",
+  "main": "decode.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bns": "^0.3.0",
+    "bstring": "^0.2.0"
+  }
+}
