@@ -53,7 +53,7 @@ def get_blocks(offset=0, count=20):
 
 def get_block(block_hash_or_height, decode_resource=False):
     try:
-        return _format_block(_request('/block/{}'.format(block_hash_or_height), decode_resource=decode_resource))
+        return _format_block(_request('/block/{}'.format(block_hash_or_height)), decode_resource=decode_resource)
     except json.decoder.JSONDecodeError:
         return
 
