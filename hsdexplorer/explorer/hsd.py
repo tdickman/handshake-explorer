@@ -67,6 +67,10 @@ def get_address_txs(address):
 
 
 def _format_block(block, decode_resource=False):
+    # Time parameter isn't present on txs if they we are returned as part of a
+    # block, but they are included with a raw transaction
+    for tx in block['txs']:
+        tx['time'] = block['time']
     block['time'] = datetime.datetime.fromtimestamp(block['time'], tz=pytz.UTC)
     block['txs'] = [_format_tx(tx, decode_resource=decode_resource) for tx in block['txs']]
     return block
@@ -77,7 +81,7 @@ def _format_tx(tx, address=None, decode_resource=False):
     Format a transaction. If `address` is provided, include the transaction
     direction relative to that address.
     """
-    tx['time'] = datetime.datetime.fromtimestamp(tx['mtime'])
+    tx['time'] = datetime.datetime.fromtimestamp(tx['time'], tz=pytz.UTC)
     tx['inputs'] = [_format_input(i) for i in tx['inputs']]
     tx['outputs'] = [_format_output(o, decode_resource=decode_resource) for o in tx['outputs']]
     if address:

@@ -107,4 +107,5 @@ Values:
 * Show raw transaction (or link to show) on tx page
 * X Show transaction transition
 * Add height to transaction view
+* Fix timestamp in tx view
 * Show status of transaction (pending)
