@@ -22,9 +22,10 @@ def process_next_block():
         current_block_height = hwrite.get_max_block() + 1
         block = True
         while block:
-            block = hsd.get_block(current_block_height, decode_resource=True)
-            # Stop processing once we hit to max block
-            if not block:
+            try:
+                block = hsd.get_block(current_block_height, decode_resource=True)
+            except json.decoder.JSONDecodeError:
+                # Stop processing once we hit to max block
                 return
 
             # Check if the new block is from a fork
