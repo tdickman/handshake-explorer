@@ -5,15 +5,7 @@
     <div class="card-header"><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a> <span class="right light">{{ tx.time }}</span></div>
     <div class="card-body row">
       <div class="col-sm-5">
-        <ul>
-        {% for input in tx.inputs %}
-        {% if input.action == 'mine' %}
-        <li>Mined coins</li>
-        {% else %}
-        <li><a href="/tx/{{ input.source_tx }}">{{ input.value | to_hns }} HNS</a> from <a href="/address/{{ input.address }}">{{ input.address }}</a></li>
-        {% endif %}
-        {% endfor %}
-        </ul>
+        {% include "explorer/_tx-input-list.html" with inputs=tx.inputs %}
       </div>
       <div class="col-sm-1">
         {% if tx.direction == 'incoming' %}
@@ -25,21 +17,7 @@
         {% endif %}
       </div>
       <div class="col-sm-6">
-        <ul>
-        {% for output in tx.outputs %}
-        <li>
-        {% if output.action == 'NONE' %}{{ output.value | to_hns }} HNS{% endif %}
-        {% if output.action == 'OPEN' %}auction open for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'BID' %}{{ output.value | to_hns }} HNS bid for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'REVEAL' %}{{ output.value | to_hns }} HNS for auction reveal of <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'REGISTER' %}register for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'REDEEM' %}{{ output.value | to_hns }} HNS for auction redeem of <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'UPDATE' %}update for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-        {% if output.action == 'RENEW' %}update for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
-         to <a href="/address/{{ output.address }}">{{ output.address }}</a>
-        </li>
-        {% endfor %}
-        </ul>
+        {% include "explorer/_tx-output-list.html" with outputs=tx.outputs %}
       </div>
       <span class="right full light">fee {{ tx.fee | to_hns }} HNS</span>
     </div>

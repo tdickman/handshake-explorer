@@ -6,6 +6,10 @@ h1 {
   padding: 2rem 0;
 }
 
+h2 {
+  padding: 2rem 0 1.3rem;
+}
+
 .row .tx-card {
   margin-bottom: 2rem;
 }

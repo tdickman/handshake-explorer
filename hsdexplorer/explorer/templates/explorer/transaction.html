@@ -1,8 +1,64 @@
 {% extends "explorer/base.html" %}
 {% block title %}Handshake Explorer: TX {{ tx.hash }}{% endblock %}
+{% load hsd_math %}
 {% block content %}
+<h1>Transaction</h1>
 <div class="row">
-  <h1>Transaction</h1>
+  <div class="col-lg-5 col-sm-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Details</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Timestamp</td>
+          <td>{{ tx.time }}</td>
+        </tr>
+        <tr>
+          <td>Height</td>
+          <td><a href="/block/{{ tx.height }}">{{ tx.height }}</a></td>
+        </tr>
+        <tr>
+          <td>Block Index</td>
+          <td>{{ tx.index }}</td>
+        </tr>
+        <tr>
+          <td>Fee</td>
+          <td>{{ tx.fee | to_hns }} HNS</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="col-lg-7 col-sm-12">
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Hashes</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Hash</td>
+          <td><a href="/tx/{{ tx.hash }}">{{ tx.hash }}</a></td>
+        </tr>
+        <tr>
+          <td>Witness Hash</td>
+          <td>{{ tx.witnessHash }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-{% include "explorer/_transaction.html" with tx=tx %}
+<h2>Inputs</h2>
+<div class="row">
+  {% include "explorer/_tx-input-list.html" with inputs=tx.inputs %}
+</div>
+<h2>Outputs</h2>
+<div class="row">
+  {% include "explorer/_tx-output-list.html" with outputs=tx.outputs %}
+</div>
 {% endblock %}

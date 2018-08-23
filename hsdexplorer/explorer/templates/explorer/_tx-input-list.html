@@ -1,0 +1,10 @@
+{% load hsd_math %}
+<ul>
+  {% for input in inputs %}
+  {% if input.action == 'mine' %}
+  <li>Mined coins</li>
+  {% else %}
+  <li><a href="/tx/{{ input.source_tx }}">{{ input.value | to_hns }} HNS</a> from <a href="/address/{{ input.address }}">{{ input.address }}</a></li>
+  {% endif %}
+  {% endfor %}
+</ul>
