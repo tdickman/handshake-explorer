@@ -113,11 +113,9 @@ def _format_output(output, decode_resource=False):
         'address': output['address']
     }
 
-    if 'value' in output:
-        resp['value'] = output['value']
-
     if action == 'NONE':
         resp['address'] = output['address']
+        resp['value'] = output['value']
         return resp
 
     # Process all other actions
@@ -128,15 +126,18 @@ def _format_output(output, decode_resource=False):
     elif action == 'BID':
         resp['start_height'] = _decode_u32(items[1])
         resp['name'] = _decode_name(items[2])
+        resp['value'] = output['value']
         # items[3] == blind
     elif action == 'REVEAL':
         resp['start_height'] = _decode_u32(items[1])
         resp['nonce'] = items[2]
+        resp['value'] = output['value']
     elif action == 'REGISTER':
         resp['start_height'] = _decode_u32(items[1])
         resp['data'] = _decode_resource(items[2])
     elif action == 'REDEEM':
         resp['start_height'] = _decode_u32(items[1])
+        resp['value'] = output['value']
     elif action == 'UPDATE':
         resp['start_height'] = _decode_u32(items[1])
         resp['data'] = _decode_resource(items[2])
