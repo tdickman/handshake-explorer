@@ -33,7 +33,7 @@ def get_names():
 def lookup_name(name_hash):
     query = datastore_client.query(kind='HSName')
     query.add_filter('name_hash', '=', name_hash)
-    return list(query.fetch())[0]['name']
+    return list(query.fetch(limit=1))[0]['name']
 
 
 def _get_name_hash(name):

@@ -106,7 +106,7 @@ Values:
 * Show address balance on transaction page
 * Show raw transaction (or link to show) on tx page
 * X Show transaction transition
-* Add height to transaction view
+* X Add height to transaction view
 * X Fix timestamp in tx view
 * X Show status of transaction (pending)
 * Add ability to watch specific auctions and receive notifications
