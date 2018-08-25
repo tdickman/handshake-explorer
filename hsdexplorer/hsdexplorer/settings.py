@@ -80,8 +80,12 @@ WSGI_APPLICATION = 'hsdexplorer.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'postgres',
+        'USER': 'hnsexplorer',
+        'PASSWORD': None,
+        'HOST': 'postgres.infra',
+        'PORT': 5432,
     }
 }
 
@@ -141,6 +145,8 @@ if os.environ.get('ENV') != 'production':
     HSD_URI = 'http://localhost:13037'
     CELERY_REDIS_HOST = 'localhost'
     CELERY_REDIS_PORT = 6379
+    DATABASES['default']['HOST'] = 'localhost'
+    DATABASES['default']['PASSWORD'] = 'password'
 
 CELERY_BROKER_URL = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
 CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)

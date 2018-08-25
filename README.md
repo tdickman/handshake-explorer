@@ -1,8 +1,20 @@
-# Setup
+# Local Setup
 
 ```
 pipenv shell --three
 pipenv install --skip-lock
+```
+
+Database:
+
+```
+docker run -p 5432:5432 postgres:10.5
+psql -h localhost -U postgres -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
+  CREATE USER hnsexplorer;
+  CREATE DATABASE hnsexplorer;
+  GRANT ALL PRIVILEGES ON DATABASE hnsexplorer TO hnsexplorer;
+EOSQL
+python manage.py migrate
 ```
 
 # Running
@@ -103,10 +115,13 @@ Values:
 * X Auctions by state
 * X Address search tool
 * Show mempool
-* Show address balance on transaction page
+* X Show address balance on transaction page
 * Show raw transaction (or link to show) on tx page
 * X Show transaction transition
 * X Add height to transaction view
 * X Fix timestamp in tx view
 * X Show status of transaction (pending)
 * Add ability to watch specific auctions and receive notifications
+* Verify history processor handling if node restarts and has to resync from block 0
+* Add time estimates to name tracker page
+* Add about page with contact info
