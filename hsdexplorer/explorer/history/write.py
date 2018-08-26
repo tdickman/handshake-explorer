@@ -30,6 +30,7 @@ def insert(event):
         )
     models.Event(
         tx_hash=event['tx_hash'],
+        block_index=event['block_index'],
         output_index=event['output_index'],
         action=models.Event.EventAction[event['action']].value,
         block_id=event['block'],

@@ -11,7 +11,7 @@ EVENTS_PAGE_SIZE = 50
 
 def index(request):
     info = hsd.get_info()
-    events = models.Event.objects.filter().order_by('-block_id', '-output_index').prefetch_related('name')[:5]
+    events = models.Event.objects.filter().order_by('-block', '-block_index', '-output_index').prefetch_related('name')[:5]
     return render(request, 'explorer/index.html', context={
         'tip': info['chain']['tip'],
         'height': info['chain']['height'],
@@ -23,7 +23,7 @@ def index(request):
 def events(request, page=1):
     offset = (page - 1) * EVENTS_PAGE_SIZE
     pages = [p for p in range(page - 5, page + 5) if p >= 1]
-    events = models.Event.objects.filter().order_by('-block_id', '-output_index').prefetch_related('name')[offset:offset + EVENTS_PAGE_SIZE]
+    events = models.Event.objects.all().order_by('-block', '-block_index', '-output_index').prefetch_related('name')[offset:offset + EVENTS_PAGE_SIZE]
 
     return render(request, 'explorer/events.html', context={
         'events': events,
@@ -78,7 +78,7 @@ def address(request, address, page=1):
 
 
 def name(request, name):
-    events = models.Event.objects.filter(name__name=name).order_by('-block_id', '-output_index')
+    events = models.Event.objects.filter(name__name=name).order_by('-block', '-block_index', '-output_index')
     if not len(events):
         raise Exception('Invalid name (no events found)')
     # Find closest OPEN event

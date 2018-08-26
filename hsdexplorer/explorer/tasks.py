@@ -39,11 +39,12 @@ def process_next_block():
 
             # Process the new block
             with transaction.atomic():
-                for tx in block['txs']:
+                for block_index, tx in enumerate(block['txs']):
                     for output_index, event in enumerate(tx['outputs']):
                         if event['action'] == 'NONE':
                             continue
                         event['tx_hash'] = tx['hash']
+                        event['block_index'] = block_index
                         event['output_index'] = output_index
                         event['block'] = block['height']
                         print(current_block_height, event)
