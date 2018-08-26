@@ -10,9 +10,9 @@ Database:
 ```
 docker run -p 5432:5432 postgres:10.5
 psql -h localhost -U postgres -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
-  CREATE USER hnsexplorer;
-  CREATE DATABASE hnsexplorer;
-  GRANT ALL PRIVILEGES ON DATABASE hnsexplorer TO hnsexplorer;
+  CREATE USER hnsxplorer;
+  CREATE DATABASE hnsxplorer;
+  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer TO hnsxplorer;
 EOSQL
 python manage.py migrate
 ```
@@ -38,9 +38,9 @@ PASSWORD=$(openssl rand -base64 32)
 k create secret generic db --from-literal=password=$PASSWORD
 k exec -it postgres-... bash
 psql -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
-  CREATE USER hnsexplorer_testnet with password '$PASSWORD';
-  CREATE DATABASE hnsexplorer_testnet;
-  GRANT ALL PRIVILEGES ON DATABASE hnsexplorer_testnet TO hnsexplorer_testnet;
+  CREATE USER hnsxplorer_testnet with password '$PASSWORD';
+  CREATE DATABASE hnsxplorer_testnet;
+  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer_testnet TO hnsxplorer_testnet;
 EOSQL
 skaffold run
 ```
