@@ -6,7 +6,7 @@ import pytz
 import requests
 import subprocess
 
-import explorer.history.read
+from . import models, utils
 
 
 def get_info():
@@ -151,8 +151,8 @@ def _format_output(output, decode_resource=False):
     # case we can skip it.
     if 'name' not in resp:
         try:
-            resp['name'] = explorer.history.read.lookup_name(resp['name_hash'])
-        except IndexError:
+            resp['name'] = models.Name.objects.get(hash=resp['name_hash']).name
+        except models.Name.DoesNotExist:
             pass
 
     return resp

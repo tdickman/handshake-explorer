@@ -2,8 +2,7 @@ from django.shortcuts import redirect, render
 import math
 import re
 
-from . import hsd, math as hsdmath, utils
-import explorer.history.read
+from . import hsd, math as hsdmath, models, utils
 
 BLOCKS_PAGE_SIZE = 50
 TXS_PAGE_SIZE = 20
@@ -12,7 +11,7 @@ EVENTS_PAGE_SIZE = 50
 
 def index(request):
     info = hsd.get_info()
-    events = explorer.history.read.get_events(limit=5).prefetch_related('name')
+    events = models.Event.objects.filter().order_by('-block_id', '-output_index').prefetch_related('name')[:5]
     return render(request, 'explorer/index.html', context={
         'tip': info['chain']['tip'],
         'height': info['chain']['height'],
@@ -24,10 +23,7 @@ def index(request):
 def events(request, page=1):
     offset = (page - 1) * EVENTS_PAGE_SIZE
     pages = [p for p in range(page - 5, page + 5) if p >= 1]
-    events = explorer.history.read.get_events(limit=EVENTS_PAGE_SIZE, offset=offset)
-    # Add some additional details to the events
-    for event in events:
-        event['name'] = explorer.history.read.lookup_name(event['name_hash'])
+    events = models.Event.objects.filter().order_by('-block_id', '-output_index').prefetch_related('name')[offset:offset + EVENTS_PAGE_SIZE]
 
     return render(request, 'explorer/events.html', context={
         'events': events,
@@ -82,11 +78,11 @@ def address(request, address, page=1):
 
 
 def name(request, name):
-    events = explorer.history.read.get_events(name=name)
+    events = models.Event.objects.filter(name__name=name).order_by('-block_id', '-output_index')
     if not len(events):
         raise Exception('Invalid name (no events found)')
     # Find closest OPEN event
-    open_block = next(e for e in events if e['action'] == 'OPEN')['block']
+    open_block = next(e for e in events if e.action == models.Event.EventAction.OPEN.value).block_id
     auction_state = hsd.get_auction_state(open_block)
     return render(request, 'explorer/name.html', context={
         'name': name,
@@ -96,7 +92,7 @@ def name(request, name):
 
 
 def names(request):
-    names = explorer.history.read.get_names()
+    names = models.Name.objects.all()
     return render(request, 'explorer/names.html', context={
         'names': names
     })

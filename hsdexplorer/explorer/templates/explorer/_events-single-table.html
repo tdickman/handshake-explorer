@@ -14,10 +14,10 @@
   <tbody>
     {% for event in events %}
     <tr>
-      <td><a href="/block/{{ event.block }}">{{ event.block }}</a></td>
-      <td>{{ event.action }}</td>
-      <td>{{ event.start_height }}</td>
-      <td>{{ event.data }}</td>
+      <td><a href="/block/{{ event.block_id }}">{{ event.block_id }}</a></td>
+      <td>{{ event.action | lower }}</td>
+      <td>{% if event.start_block_id %}{{ event.start_block_id }}{% endif %}</td>
+      <td>{% if event.data %}{{ event.data }}{% endif %}</td>
       <td>{{ event.value | to_hns }}{% if event.value is not None %} HNS{% endif %}</td>
       <td><a href="/tx/{{ event.tx_hash }}">TX</a></td>
     </tr>

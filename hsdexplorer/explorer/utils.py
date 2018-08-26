@@ -2,8 +2,7 @@ import json
 import re
 from enum import Enum
 
-from . import hsd
-import explorer.history.read
+from . import hsd, models
 
 
 def is_address(value):
@@ -31,7 +30,7 @@ def is_transaction(value):
 
 
 def is_name(value):
-    return explorer.history.read.get_name(value)
+    return models.Name.objects.get(name=name)
 
 
 class ChoiceEnum(Enum):
