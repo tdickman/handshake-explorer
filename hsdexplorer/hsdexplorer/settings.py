@@ -25,7 +25,7 @@ SECRET_KEY = 'du+i%ns0t&4oea8ryrkvw6x5l*2srs#(jrrj)d67k5wg5*$4%0'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['hnsxplorer.com', 'k8s-healthcheck', 'localhost']
+ALLOWED_HOSTS = ['testnet.hnsxplorer.com', 'hnsxplorer.com', 'k8s-healthcheck', 'localhost']
 
 
 # Application definition
@@ -83,8 +83,8 @@ WSGI_APPLICATION = 'hsdexplorer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'hnsexplorer',
+        'NAME': 'hnsexplorer-dev',
+        'USER': 'hnsexplorer-dev',
         'PASSWORD': None,
         'HOST': 'postgres.infra',
         'PORT': 5432,
@@ -134,13 +134,14 @@ BIDDING_PERIOD = 288
 REVEAL_PERIOD = 576
 
 HSD_URI = 'http://handshake-node:13037'
-DATASTORE_NAMESPACE = 'HandshakeTestnet'
 
 # Celery
 CELERY_REDIS_HOST = 'redis'
 CELERY_REDIS_PORT = 6379
 
-if os.environ.get('ENV') != 'production':
+DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASSWORD')
+
+if os.environ.get('ENV') == 'local':
     DEBUG = True
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('192.168.1.9')
@@ -151,6 +152,12 @@ if os.environ.get('ENV') != 'production':
     DATABASES['default']['PASSWORD'] = 'password'
     DEBUG = True
     INTERNAL_IPS = ['192.168.1.18']
+elif os.environ.get('ENV') == 'testnet':
+    DATABASES['default']['NAME'] = 'hnsxplorer-testnet'
+    DATABASES['default']['USER'] = 'hnsxplorer-testnet'
+elif os.environ.get('ENV') == 'mainnet':
+    DATABASES['default']['NAME'] = 'hnsxplorer-mainnet'
+    DATABASES['default']['USER'] = 'hnsxplorer-mainnet'
 
 CELERY_BROKER_URL = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
 CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)

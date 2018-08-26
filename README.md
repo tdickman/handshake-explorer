@@ -31,6 +31,14 @@ python manage.py runserver 0.0.0.0:8000
 celery -A hsdexplorer worker -l info -B  # -B is optional -> used if celery beat is enabled
 ```
 
+# Deployment
+
+```
+PASSWORD=$(openssl rand -base64 32)
+k create secret generic db --from-literal=password=$PASSWORD
+skaffold run
+```
+
 # Examples
 
 * [Reveal](http://localhost:8000/block/12589fe9cf320535eadbc1e570bdcc1365c225f9a6c9d2ee1cecd400a4b05e13)

@@ -80,7 +80,12 @@ spec:
         - containerPort: 8000
         env:
           - name: ENV
-            value: 'production'
+            value: 'testnet'
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db
+                key: password
         livenessProbe:
           httpGet:
             path: /_/healthz
@@ -121,9 +126,14 @@ spec:
         command: ["celery", "-A", "hsdexplorer", "beat", "-l", "info"]
         env:
           - name: ENV
-            value: 'production'
+            value: 'testnet'
           - name: PYTHONUNBUFFERED
             value: 'true'
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db
+                key: password
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -150,6 +160,11 @@ spec:
         command: ["celery", "-A", "hsdexplorer", "worker", "-l", "info"]
         env:
           - name: ENV
-            value: 'production'
+            value: 'testnet'
           - name: PYTHONUNBUFFERED
             value: 'true'
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db
+                key: password
