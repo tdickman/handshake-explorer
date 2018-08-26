@@ -1,5 +1,6 @@
 import json
 import re
+from enum import Enum
 
 from . import hsd
 import explorer.history.read
@@ -31,3 +32,9 @@ def is_transaction(value):
 
 def is_name(value):
     return explorer.history.read.get_name(value)
+
+
+class ChoiceEnum(Enum):
+    @classmethod
+    def choices(cls):
+        return tuple((x.name, x.value) for x in cls)

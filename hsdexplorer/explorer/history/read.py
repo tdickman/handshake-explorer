@@ -1,5 +1,4 @@
 from django.conf import settings
-from google.cloud import datastore
 import hashlib
 import os
 import sys
@@ -7,33 +6,25 @@ from functools import lru_cache
 if sys.version_info < (3, 6):
     import sha3
 
-
-if not os.environ.get('COLLECTSTATIC'):
-    datastore_client = datastore.Client(namespace=settings.DATASTORE_NAMESPACE)
+from explorer import models
 
 
 def get_events(name=None, limit=50, offset=0):
     """Retrieve event history for a given name."""
-    query = datastore_client.query(kind='HSEvent')
     if name:
-        name_hash = _get_name_hash(name)
-        query.add_filter('name_hash', '=', name_hash)
-        query.order = ['-block', '-tx_index']
+        events = models.Event.objects.filter(name__name=name)
     else:
-        query.order = ['-block']
-    return list(query.fetch(limit=limit, offset=offset))
+        events = models.Event.objects.all()
+    return events.order_by('-block_id', '-output_index')[offset:offset + limit]
 
 
 def get_names():
-    query = datastore_client.query(kind='HSName')
-    return list(query.fetch())
+    return models.Name.objects.all()
 
 
 @lru_cache(maxsize=2048)
 def lookup_name(name_hash):
-    query = datastore_client.query(kind='HSName')
-    query.add_filter('name_hash', '=', name_hash)
-    return list(query.fetch(limit=1))[0]['name']
+    return models.Name.objects.get(hash=name_hash).name
 
 
 def _get_name_hash(name):
@@ -43,5 +34,4 @@ def _get_name_hash(name):
 
 
 def get_name(name):
-    key = datastore_client.key('HSName', name)
-    return datastore_client.get(key)
+    return models.Name.objects.get(name=name)

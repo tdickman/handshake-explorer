@@ -15,7 +15,7 @@
     <tr>
       <td><a href="/block/{{ event.block }}">{{ event.block }}</a></td>
       <td>{{ event.action | lower }}</td>
-      <td><a href="/name/{{ event.name }}">{{ event.name }}</a></td>
+      <td><a href="/name/{{ event.name_name }}">{{ event.name_name }}</a></td>
       <td>{{ event.value | to_hns }}{% if event.value is not None %} HNS{% endif %}</td>
       <td><a href="/tx/{{ event.tx_hash }}">TX</a></td>
     </tr>

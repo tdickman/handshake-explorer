@@ -7,10 +7,9 @@ name = "pypi"
 
 [packages]
 gunicorn = "*"
-django = "*"
+django = "==2.1"
 whitenoise = "*"
 requests = "*"
-google-cloud-datastore = "*"
 "pysha3" = "*"
 django-tz-detect = "*"
 celery = "*"

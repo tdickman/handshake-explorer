@@ -12,10 +12,7 @@ EVENTS_PAGE_SIZE = 50
 
 def index(request):
     info = hsd.get_info()
-    events = explorer.history.read.get_events(limit=5)
-    # Add some additional details to the events
-    for event in events:
-        event['name'] = explorer.history.read.lookup_name(event['name_hash'])
+    events = explorer.history.read.get_events(limit=5).prefetch_related('name')
     return render(request, 'explorer/index.html', context={
         'tip': info['chain']['tip'],
         'height': info['chain']['height'],

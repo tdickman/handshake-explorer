@@ -1,6 +1,7 @@
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from django.conf import settings
+from django.db import transaction
 import json
 import redis
 
@@ -37,13 +38,13 @@ def process_next_block():
                 return
 
             # Process the new block
-            with hwrite.datastore_client.transaction():
-                for tx_index, tx in enumerate(block['txs']):
-                    for event in tx['outputs']:
+            with transaction.atomic():
+                for tx in block['txs']:
+                    for output_index, event in enumerate(tx['outputs']):
                         if event['action'] == 'NONE':
                             continue
                         event['tx_hash'] = tx['hash']
-                        event['tx_index'] = tx_index
+                        event['output_index'] = output_index
                         event['block'] = block['height']
                         print(current_block_height, event)
                         hwrite.insert(event)

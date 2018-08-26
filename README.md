@@ -2,7 +2,7 @@
 
 ```
 pipenv shell --three
-pipenv install --skip-lock
+pipenv install
 ```
 
 Database:
@@ -15,6 +15,12 @@ psql -h localhost -U postgres -v ON_ERROR_STOP=1 --username postgres -d postgres
   GRANT ALL PRIVILEGES ON DATABASE hnsexplorer TO hnsexplorer;
 EOSQL
 python manage.py migrate
+```
+
+Redis:
+
+```
+docker run -p 6379:6379 redis
 ```
 
 # Running
