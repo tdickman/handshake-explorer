@@ -19,7 +19,7 @@ def process_next_block():
     # Ignore the job if we are already processing another job like this
     lock = REDIS_CLIENT.lock('celery_process_next_block_lock', timeout=600, blocking_timeout=0)
     if not lock.acquire(blocking=False):
-        return
+        return 'Skipping task due to LOCK'
     try:
         current_block_height = hwrite.get_max_block() + 1
         block = True
