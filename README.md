@@ -10,9 +10,9 @@ Database:
 ```
 docker run -p 5432:5432 postgres:10.5
 psql -h localhost -U postgres -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
-  CREATE USER hnsxplorer;
-  CREATE DATABASE hnsxplorer;
-  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer TO hnsxplorer;
+  CREATE USER hnsxplorer_dev;
+  CREATE DATABASE hnsxplorer_dev;
+  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer_dev TO hnsxplorer_dev;
 EOSQL
 python manage.py migrate
 ```
