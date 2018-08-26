@@ -38,7 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'explorer',
-    'tz_detect'
+    'tz_detect',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -52,6 +53,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'hsdexplorer.middleware.health.HealthCheckMiddleware',
     'tz_detect.middleware.TimezoneMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'hsdexplorer.urls'
@@ -147,6 +149,8 @@ if os.environ.get('ENV') != 'production':
     CELERY_REDIS_PORT = 6379
     DATABASES['default']['HOST'] = 'localhost'
     DATABASES['default']['PASSWORD'] = 'password'
+    DEBUG = True
+    INTERNAL_IPS = ['192.168.1.18']
 
 CELERY_BROKER_URL = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
 CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
