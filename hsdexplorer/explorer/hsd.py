@@ -60,7 +60,8 @@ def get_transaction(tx_hash):
 
 
 def get_address_txs(address):
-    return [_format_tx(tx, address=address) for tx in _request('/tx/address/{}'.format(address))]
+    txs = [_format_tx(tx, address=address) for tx in _request('/tx/address/{}'.format(address))]
+    return sorted(txs, key=lambda tx: tx['time'], reverse=True)
 
 
 def _format_block(block, decode_resource=False):

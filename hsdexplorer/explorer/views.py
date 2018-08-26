@@ -70,6 +70,7 @@ def address(request, address, page=1):
         'total_received': received,
         'total_sent': sent,
         'total_balance': received - sent,
+        'tx_count': len(txs),
         'txs': txs[offset:offset + TXS_PAGE_SIZE],
         'current_page': page,
         'max_page': max_page,
