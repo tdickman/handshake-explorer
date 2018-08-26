@@ -36,6 +36,12 @@ celery -A hsdexplorer worker -l info -B  # -B is optional -> used if celery beat
 ```
 PASSWORD=$(openssl rand -base64 32)
 k create secret generic db --from-literal=password=$PASSWORD
+k exec -it postgres-... bash
+psql -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
+  CREATE USER hnsexplorer_testnet with password '$PASSWORD';
+  CREATE DATABASE hnsexplorer_testnet;
+  GRANT ALL PRIVILEGES ON DATABASE hnsexplorer_testnet TO hnsexplorer_testnet;
+EOSQL
 skaffold run
 ```
 

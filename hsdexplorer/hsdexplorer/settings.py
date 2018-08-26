@@ -83,8 +83,8 @@ WSGI_APPLICATION = 'hsdexplorer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hnsexplorer-dev',
-        'USER': 'hnsexplorer-dev',
+        'NAME': 'hnsxplorer_dev',
+        'USER': 'hnsxplorer_dev',
         'PASSWORD': None,
         'HOST': 'postgres.infra',
         'PORT': 5432,
@@ -153,11 +153,11 @@ if os.environ.get('ENV') == 'local':
     DEBUG = True
     INTERNAL_IPS = ['192.168.1.18']
 elif os.environ.get('ENV') == 'testnet':
-    DATABASES['default']['NAME'] = 'hnsxplorer-testnet'
-    DATABASES['default']['USER'] = 'hnsxplorer-testnet'
+    DATABASES['default']['NAME'] = 'hnsxplorer_testnet'
+    DATABASES['default']['USER'] = 'hnsxplorer_testnet'
 elif os.environ.get('ENV') == 'mainnet':
-    DATABASES['default']['NAME'] = 'hnsxplorer-mainnet'
-    DATABASES['default']['USER'] = 'hnsxplorer-mainnet'
+    DATABASES['default']['NAME'] = 'hnsxplorer_mainnet'
+    DATABASES['default']['USER'] = 'hnsxplorer_mainnet'
 
 CELERY_BROKER_URL = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
 CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
