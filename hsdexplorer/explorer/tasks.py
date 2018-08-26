@@ -17,7 +17,7 @@ def process_next_block():
 	Process the next available blocks
     """
     # Ignore the job if we are already processing another job like this
-    lock = REDIS_CLIENT.lock('celery_process_next_block_lock', timeout=120, blocking_timeout=0)
+    lock = REDIS_CLIENT.lock('celery_process_next_block_lock', timeout=600, blocking_timeout=0)
     if not lock.acquire(blocking=False):
         return
     try:
