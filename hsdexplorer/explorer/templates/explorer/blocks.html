@@ -2,10 +2,14 @@
 {% block title %}Handshake Explorer: Blocks{% endblock %}
 {% block content %}
 <div class="page-header" id="banner">
-  <h1>Latest Blocks</h1>
-  <div class="row">
-    {% include "explorer/_block-table.html" with blocks=blocks %}
-    {% include "explorer/_pagination.html" with url_prefix="/blocks" %}
+  <div class="box">
+    <div class="box-header">
+      <div class="box-header-title">Latest Blocks</div>
+    </div>
+    <div class="box-body">
+      {% include "explorer/_block-table.html" with blocks=blocks %}
+      {% include "explorer/_pagination.html" with url_prefix="/blocks" %}
+    </div>
   </div>
 </div>
 {% endblock %}

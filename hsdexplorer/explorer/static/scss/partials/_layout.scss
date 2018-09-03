@@ -1,5 +1,7 @@
+@import '../modules/colors';
+
 body {
-  padding-top: 120px;
+  padding-top: 100px;
 }
 
 h1 {
@@ -38,7 +40,7 @@ h2 {
 
 /* Layout */
 body {
-  background-color: #EBE9E9;
+  background-color: $background;
 }
 
 /* Links */
