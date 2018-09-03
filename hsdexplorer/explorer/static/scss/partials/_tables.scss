@@ -1,3 +1,20 @@
+@import '../modules/colors';
+
 .table {
   margin-bottom: 0;
+}
+
+.table th, .table td {
+  border-top: 0;
+  padding: 0.5rem;
+}
+
+.table thead th {
+  border-bottom: 0;
+  color: $lightGrey;
+  font-weight: 200;
+}
+
+td.label {
+  color: $lightGrey;
 }

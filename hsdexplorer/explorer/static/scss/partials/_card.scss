@@ -1,0 +1,17 @@
+@import '../modules/colors';
+
+.border-secondary {
+  border-color: #fff !important;
+}
+
+.card-header {
+  background-color: $boxHeaderBackground;
+}
+
+.row .tx-card {
+  margin-top: 1rem;
+}
+
+.tx-arrow {
+  width: 16px;
+}

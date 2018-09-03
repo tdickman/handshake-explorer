@@ -1,63 +1,63 @@
 {% extends "explorer/base.html" %}
 {% block title %}Handshake Explorer: Block {{ height }}{% endblock %}
 {% block content %}
-<h1>Block #{{ hsdblock.height }}</h1>
-<div class="row">
-  <div class="col-lg-5 col-sm-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Details</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Number of Transactions</td>
-          <td>{{ hsdblock.txs | length }}</td>
-        </tr>
-        <tr>
-          <td>Height</td>
-          <td><a href="/block/{{ hsdblock.hash }}">{{ hsdblock.height }}</a></td>
-        </tr>
-        <tr>
-          <td>Timestamp</td>
-          <td>{{ hsdblock.time }}</td>
-        </tr>
-        <tr>
-          <td>Bits</td>
-          <td>{{ hsdblock.bits }}</td>
-        </tr>
-      </tbody>
-    </table>
+<div class="box">
+  <div class="box-header">
+    <div class="box-header-title">Summary</div>
   </div>
-  <div class="col-lg-7 col-sm-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Hashes</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Hash</td>
-          <td><a href="/block/{{ hsdblock.hash }}">{{ hsdblock.hash }}</a></td>
-        </tr>
-        <tr>
-          <td>Previous Block</td>
-          <td><a href="/block/{{ hsdblock.prevBlock }}">{{ hsdblock.prevBlock }}</a></td>
-        </tr>
-        <tr>
-          <td>Merkle Root</td>
-          <td>{{ hsdblock.merkleRoot }}</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-lg-5">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="label">Number of Transactions</td>
+              <td>{{ hsdblock.txs | length }}</td>
+            </tr>
+            <tr>
+              <td class="label">Height</td>
+              <td><a href="/block/{{ hsdblock.hash }}">{{ hsdblock.height }}</a></td>
+            </tr>
+            <tr>
+              <td class="label">Timestamp</td>
+              <td>{{ hsdblock.time }}</td>
+            </tr>
+            <tr>
+              <td class="label">Bits</td>
+              <td>{{ hsdblock.bits }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-lg-7">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="label">Hash</td>
+              <td><a href="/block/{{ hsdblock.hash }}">{{ hsdblock.hash }}</a></td>
+            </tr>
+            <tr>
+              <td class="label">Previous Block</td>
+              <td><a href="/block/{{ hsdblock.prevBlock }}">{{ hsdblock.prevBlock }}</a></td>
+            </tr>
+            <tr>
+              <td class="label">Merkle Root</td>
+              <td>{{ hsdblock.merkleRoot }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
-<h2>Transactions</h2>
-{% for tx in hsdblock.txs %}
-  {% include "explorer/_transaction.html" with tx=tx %}
-{% endfor %}
+<div class="box">
+  <div class="box-header">
+    <div class="box-header-title">Transactions</div>
+  </div>
+  <div class="box-body">
+    {% for tx in hsdblock.txs %}
+      {% include "explorer/_transaction.html" with tx=tx %}
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

@@ -2,56 +2,55 @@
 {% load hsd_math %}
 {% block title %}Handshake Explorer: Address {{ address }}{% endblock %}
 {% block content %}
-<h1>Address</h1>
-<div class="row">
-  <div class="col-lg-7 col-sm-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Summary</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Address</td>
-          <td><a href="/address/{{ address }}">{{ address }}</a></td>
-        </tr>
-      </tbody>
-    </table>
+<div class="box">
+  <div class="box-header">
+    <div class="box-header-title">Summary</div>
   </div>
-  <div class="col-lg-5 col-sm-12">
-    <table class="table">
-      <thead>
-        <tr>
-          <th>Details</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Number of Transactions</td>
-          <td>{{ tx_count }}</td>
-        </tr>
-        <tr>
-          <td>Total Received</td>
-          <td>{{ total_received | to_hns }} HNS</td>
-        </tr>
-        <tr>
-          <td>Total Sent</td>
-          <td>{{ total_sent | to_hns }} HNS</td>
-        </tr>
-        <tr>
-          <td>Final Balance</td>
-          <td>{{ total_balance | to_hns }} HNS</td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="box-body">
+    <div class="row">
+      <div class="col-lg-7 col-sm-12">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="label">Address</td>
+              <td><a href="/address/{{ address }}">{{ address }}</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="col-lg-5 col-sm-12">
+        <table class="table">
+          <tbody>
+            <tr>
+              <td class="label">Number of Transactions</td>
+              <td>{{ tx_count }}</td>
+            </tr>
+            <tr>
+              <td class="label">Total Received</td>
+              <td>{{ total_received | to_hns }} HNS</td>
+            </tr>
+            <tr>
+              <td class="label">Total Sent</td>
+              <td>{{ total_sent | to_hns }} HNS</td>
+            </tr>
+            <tr>
+              <td class="label">Final Balance</td>
+              <td>{{ total_balance | to_hns }} HNS</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </div>
-<h2>Transactions</h2>
-{% for tx in txs %}
-  {% include "explorer/_transaction.html" with tx=tx %}
-{% endfor %}
-{% include "explorer/_pagination.html" with url_prefix="/address/"|add:address %}
+<div class="box">
+  <div class="box-header">
+    <div class="box-header-title">Transactions</div>
+  </div>
+  <div class="box-body">
+    {% for tx in txs %}
+      {% include "explorer/_transaction.html" with tx=tx %}
+    {% endfor %}
+    {% include "explorer/_pagination.html" with url_prefix="/address/"|add:address %}
+  </div>
 {% endblock %}

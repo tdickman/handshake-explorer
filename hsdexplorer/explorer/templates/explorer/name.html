@@ -1,17 +1,39 @@
 {% extends "explorer/base.html" %}
 {% block title %}Handshake Explorer: Name {{ name }}{% endblock %}
 {% block content %}
-<div class="row">
-  <h1> .{{ name }} TLD</h1>
+<div class="box">
+  <div class="box-header">
+    <div class="box-header-title">Summary</div>
+  </div>
+  <div class="box-body">
+    <table class="table">
+      <tbody>
+        <tr>
+          <td class="label">TLD</td>
+          <td>.{{ name }}</td>
+        </tr>
+        <tr>
+          <td class="label">Open State</td>
+          <td>{{ auction_state.open_completed }} / {{ auction_state.open_total }} blocks</td>
+        </tr>
+        <tr>
+          <td class="label">Bidding State</td>
+          <td>{{ auction_state.bidding_completed }} / {{ auction_state.bidding_total }} blocks</td>
+        </tr>
+        <tr>
+          <td class="label">Reveal State</td>
+          <td>{{ auction_state.reveal_completed }} / {{ auction_state.reveal_total }} blocks</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
-<div class="row">
-  <ul>
-    <li>Open state ({{ auction_state.open_completed }} / {{ auction_state.open_total }})
-    <li>Bidding state ({{ auction_state.bidding_completed }} / {{ auction_state.bidding_total }})
-    <li>Reveal state ({{ auction_state.reveal_completed }} / {{ auction_state.reveal_total }})
-</div>
-<div class="row">
-  <h2>Events</h2>
-  {% include "explorer/_events-single-table.html" %}
+<div class="box">
+  <div class="box-header">
+    <div class="box-header-title">Events</div>
+  </div>
+  <div class="box-body">
+    {% include "explorer/_events-single-table.html" %}
+  </div>
 </div>
 {% endblock %}

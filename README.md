@@ -129,6 +129,7 @@ Values:
 
 * https://bootswatch.com/sandstone/
 * Alternative theme: https://picnicss.com/tests
+* Possible color scheme: https://coolors.co/ebe9e9-f7f2f2-3581b8-fcb07e-dee2d6
 
 # TODO
 
