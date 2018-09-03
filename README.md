@@ -27,6 +27,7 @@ docker run -p 6379:6379 redis
 
 ```
 cd hsdexplorer
+python manage.py compilescss
 python manage.py runserver 0.0.0.0:8000
 celery -A hsdexplorer worker -l info -B  # -B is optional -> used if celery beat is enabled
 ```
