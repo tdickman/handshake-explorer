@@ -145,3 +145,5 @@ Values:
 * Verify history processor handling if node restarts and has to resync from block 0
 * Add time estimates to name tracker page
 * Add about page with contact info
+* List of active auctions
+* API
