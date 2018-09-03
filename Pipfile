@@ -16,6 +16,9 @@ celery = "*"
 redis = "*"
 "psycopg2-binary" = "*"
 django-debug-toolbar = "*"
+libsass = "*"
+django-compressor = "*"
+django-sass-processor = "*"
 
 [requires]
 python_version = "3.5"

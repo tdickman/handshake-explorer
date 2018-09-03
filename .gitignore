@@ -2,3 +2,5 @@
 GeoIP.dat
 node_modules/
 celerybeat-schedule
+**/static/**/scss/**/*.css
+**/static/**/scss/**/*.css.map

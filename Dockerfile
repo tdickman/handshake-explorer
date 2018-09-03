@@ -12,6 +12,6 @@ ADD			hsdexplorer/hsdbin/package.json /app/hsdbin/
 RUN			cd hsdbin && npm install
 
 ADD         ./hsdexplorer/ /app/
-RUN	    	COLLECTSTATIC=1 python manage.py collectstatic; unset COLLECTSTATIC
+RUN	    	COLLECTSTATIC=1 echo 'yes' | python manage.py collectstatic; python manage.py compilescss; unset COLLECTSTATIC
 
 ENTRYPOINT  ["gunicorn", "--bind", "0.0.0.0:8000", "--log-level", "debug", "hsdexplorer.wsgi"]
