@@ -1,38 +1,9 @@
+from django.conf import settings
+from django.core.cache import caches
 import json
 import math
 import re
 from enum import Enum
-
-from . import hsd, models
-from hsdexplorer import settings
-
-
-def is_address(value):
-    return re.compile('[a-z0-9]{42}').match(value) and value[:2] == 'ts'
-
-
-def is_block(value):
-    if re.compile('[a-f0-9]{64}').match(value):
-        try:
-            hsd.get_block(value)
-            return True
-        except json.decoder.JSONDecodeError:
-            pass
-    return False
-
-
-def is_transaction(value):
-    if re.compile('[a-f0-9]{64}').match(value):
-        try:
-            hsd.get_transaction(value)
-            return True
-        except json.decoder.JSONDecodeError:
-            pass
-    return False
-
-
-def is_name(value):
-    return len(models.Name.objects.filter(name=value)) > 0
 
 
 class ChoiceEnum(Enum):
@@ -54,3 +25,15 @@ def pagify(data, page, page_size=settings.DEFAULT_PAGE_SIZE):
         'max_page': max_page,
         'pages': pages
     }
+
+
+def cache_function(func):
+    def cached(*args, **kw):
+        cache_name = 'func-cache-{}'.format(func.__name__)
+        resp = caches['in_memory'].get(cache_name)
+        if resp:
+            return resp
+        resp = func(*args, **kw)
+        caches['in_memory'].set(cache_name, resp, 10)
+        return resp
+    return cached

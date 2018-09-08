@@ -140,12 +140,13 @@ DEFAULT_PAGE_SIZE = 50
 OPEN_PERIOD = 73
 BIDDING_PERIOD = 288
 REVEAL_PERIOD = 576
+BLOCK_TIME_SECONDS = 204.255
 
 HSD_URI = 'http://handshake-node:13037'
 
 # Celery
-CELERY_REDIS_HOST = 'redis'
-CELERY_REDIS_PORT = 6379
+REDIS_HOST = 'redis'
+REDIS_PORT = 6379
 
 DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASSWORD')
 
@@ -154,8 +155,8 @@ if os.environ.get('ENV') == 'local':
     ALLOWED_HOSTS.append('localhost')
     ALLOWED_HOSTS.append('192.168.1.9')
     HSD_URI = 'http://localhost:13037'
-    CELERY_REDIS_HOST = 'localhost'
-    CELERY_REDIS_PORT = 6379
+    REDIS_HOST = 'localhost'
+    REDIS_PORT = 6379
     DATABASES['default']['HOST'] = 'localhost'
     DATABASES['default']['PASSWORD'] = 'password'
     INTERNAL_IPS = ['192.168.1.18', '192.168.1.36']
@@ -166,5 +167,20 @@ elif os.environ.get('ENV') == 'mainnet':
     DATABASES['default']['NAME'] = 'hnsxplorer_mainnet'
     DATABASES['default']['USER'] = 'hnsxplorer_mainnet'
 
-CELERY_BROKER_URL = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
-CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(CELERY_REDIS_HOST, CELERY_REDIS_PORT)
+CELERY_BROKER_URL = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)
+CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://{}:{}/1'.format(REDIS_HOST, REDIS_PORT),
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient'
+        },
+        'KEY_PREFIX': 'hsd_prefix'
+    },
+    'in_memory': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'main',
+    }
+}

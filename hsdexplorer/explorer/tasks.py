@@ -8,7 +8,7 @@ import redis
 import explorer.history.write as hwrite
 from . import hsd
 
-REDIS_CLIENT = redis.Redis(host=settings.CELERY_REDIS_HOST, port=settings.CELERY_REDIS_PORT)
+REDIS_CLIENT = redis.Redis(host=settings.REDIS_HOST, port=settings.REDIS_PORT)
 
 
 @shared_task

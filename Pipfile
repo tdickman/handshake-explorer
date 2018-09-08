@@ -19,6 +19,7 @@ django-debug-toolbar = "*"
 libsass = "*"
 django-compressor = "*"
 django-sass-processor = "*"
+django-redis = "*"
 
 [requires]
 python_version = "3.5"

@@ -84,11 +84,13 @@ def name(request, name):
     open_block = next(e for e in events if e.action == models.Event.EventAction.OPEN.value).block_id
     auction_status = hsd.get_auction_status(open_block)
     auction_state = hsd.get_auction_state(open_block)
+    time_remaining = hsd.get_time_remaining(open_block)
     return render(request, 'explorer/name.html', context={
         'name': name,
         'events': events,
         'auction_state': auction_state,
-        'auction_status': auction_status
+        'auction_status': auction_status,
+        'time_remaining_minutes': int(time_remaining / 60)
     })
 
 
@@ -109,13 +111,13 @@ def names(request, page=1):
 
 def search(request):
     value = request.GET['value']
-    if utils.is_address(value):
+    if hsd.is_address(value):
         return redirect('address', address=value)
-    if utils.is_block(value):
+    if hsd.is_block(value):
         return redirect('block', block_hash=value)
-    if utils.is_transaction(value):
+    if hsd.is_transaction(value):
         return redirect('transaction', tx_hash=value)
-    if utils.is_name(value):
+    if hsd.is_name(value):
         return redirect('name', name=value)
 
 

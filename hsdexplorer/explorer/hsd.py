@@ -6,9 +6,11 @@ import pytz
 import requests
 import subprocess
 
-from . import models, utils
+from . import models
+from .utils import cache_function
 
 
+@cache_function
 def get_info():
     return _request('/')
 
@@ -45,6 +47,14 @@ def get_auction_state(open_block):
         return 'Reveal'
 
     return 'Live'
+
+
+def get_time_remaining(open_block):
+    auction_status = get_auction_status(open_block)
+    current_state = get_auction_state(open_block).lower()
+    blocks_completed = auction_status['{}_completed'.format(current_state)]
+    blocks_total = auction_status['{}_total'.format(current_state)]
+    return (blocks_total - blocks_completed) * settings.BLOCK_TIME_SECONDS
 
 
 def get_blocks(offset=0, count=20):
@@ -191,3 +201,33 @@ def _decode_name(hex_val):
 def _request(path):
     resp = requests.get('{}{}'.format(settings.HSD_URI, path), timeout=5)
     return resp.json()
+
+
+def is_address(value):
+    return re.compile('[a-z0-9]{42}').match(value) and value[:2] == 'ts'
+
+
+def is_block(value):
+    if re.compile('[a-f0-9]{64}').match(value):
+        try:
+            hsd.get_block(value)
+            return True
+        except json.decoder.JSONDecodeError:
+            pass
+    return False
+
+
+def is_transaction(value):
+    if re.compile('[a-f0-9]{64}').match(value):
+        try:
+            hsd.get_transaction(value)
+            return True
+        except json.decoder.JSONDecodeError:
+            pass
+    return False
+
+
+def is_name(value):
+    return len(models.Name.objects.filter(name=value)) > 0
+
+
