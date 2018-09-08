@@ -22,6 +22,8 @@
         {% endfor %}
       </tbody>
     </table>
+    <br>
+    {% include "explorer/_pagination.html" with url_prefix="/names" %}
   </div>
 </div>
 {% endblock %}

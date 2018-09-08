@@ -135,6 +135,8 @@ STATICFILES_FINDERS =  [
     'sass_processor.finders.CssFinder',
 ]
 
+DEFAULT_PAGE_SIZE = 50
+
 OPEN_PERIOD = 73
 BIDDING_PERIOD = 288
 REVEAL_PERIOD = 576

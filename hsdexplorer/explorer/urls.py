@@ -8,6 +8,7 @@ urlpatterns = [
     path('block/<int:block_hash>', views.block),
     path('search', views.search),
     path('names', views.names),
+    re_path('names/page/(?P<page>\d+)$', views.names),
     path('blocks', views.blocks),
     path('blocks/page/<int:page>', views.blocks),
     path('events', views.events),
