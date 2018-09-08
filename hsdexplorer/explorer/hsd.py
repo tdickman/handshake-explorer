@@ -65,14 +65,10 @@ def get_blocks(offset=0, count=20):
     """
     info = get_info()
     current_block = info['chain']['height'] - offset
-
-    remaining_blocks = count
     blocks = []
-    while remaining_blocks > 0 and current_block >= 0:
-        block_details = get_block(current_block)
+    for block_number in range(current_block, max(current_block - count, 0), -1):
+        block_details = get_block(block_number)
         blocks.append(block_details)
-        current_block -= 1
-        remaining_blocks -= 1
 
     return blocks
 
