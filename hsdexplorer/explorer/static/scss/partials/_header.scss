@@ -1,3 +1,14 @@
 .bg-primary {
   background-color: #3581B8 !important;
 }
+
+.search-icon {
+  margin-left: -33px;
+  font-weight: 500;
+  font-size: 18px;
+  -webkit-transform: rotate(45deg); 
+  -moz-transform: rotate(45deg); 
+  -o-transform: rotate(45deg);
+  transform: rotate(45deg);
+  cursor: pointer;
+}

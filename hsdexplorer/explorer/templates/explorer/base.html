@@ -30,13 +30,18 @@
             <li class="nav-item">
               <a class="nav-link" href="/names">Names</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/about">About</a>
+            </li>
           </ul>
 
           <ul class="nav navbar-nav ml-auto">
           </ul>
-          <form class="form-inline my-2 my-lg-0" action="/search">
+          <form name="search" class="form-inline my-2 my-lg-0" action="/search">
             <input class="form-control mr-sm-2" type="text" name="value" placeholder="Name, transaction, etc">
-            <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
+            <span class="search-icon" onclick="search.submit()">
+              &#9906;
+            </span>
           </form>
 
         </div>

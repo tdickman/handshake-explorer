@@ -117,3 +117,7 @@ def search(request):
         return redirect('transaction', tx_hash=value)
     if utils.is_name(value):
         return redirect('name', name=value)
+
+
+def about(request):
+    return render(request, 'explorer/about.html')

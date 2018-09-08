@@ -7,6 +7,7 @@ urlpatterns = [
     re_path('block/(?P<block_hash>[a-f0-9]{64})$', views.block, name='block'),
     path('block/<int:block_hash>', views.block),
     path('search', views.search),
+    path('about', views.about),
     path('names', views.names),
     re_path('names/page/(?P<page>\d+)$', views.names),
     path('blocks', views.blocks),
