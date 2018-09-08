@@ -13,7 +13,7 @@ def get_info():
     return _request('/')
 
 
-def get_auction_state(open_block):
+def get_auction_status(open_block):
     info = get_info()
     blocks_since_open = info['chain']['height'] - open_block
 
@@ -29,6 +29,22 @@ def get_auction_state(open_block):
             settings.REVEAL_PERIOD), 0),
         'reveal_total': settings.REVEAL_PERIOD
     }
+
+
+def get_auction_state(open_block):
+    info = get_info()
+    blocks_since_open = info['chain']['height'] - open_block
+
+    if blocks_since_open < settings.OPEN_PERIOD:
+        return 'Open'
+
+    if blocks_since_open < settings.BIDDING_PERIOD:
+        return 'Bidding'
+
+    if blocks_since_open < settings.REVEAL_PERIOD:
+        return 'Reveal'
+
+    return 'Live'
 
 
 def get_blocks(offset=0, count=20):

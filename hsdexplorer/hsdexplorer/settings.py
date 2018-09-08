@@ -156,8 +156,7 @@ if os.environ.get('ENV') == 'local':
     CELERY_REDIS_PORT = 6379
     DATABASES['default']['HOST'] = 'localhost'
     DATABASES['default']['PASSWORD'] = 'password'
-    DEBUG = True
-    INTERNAL_IPS = ['192.168.1.18']
+    INTERNAL_IPS = ['192.168.1.18', '192.168.1.36']
 elif os.environ.get('ENV') == 'testnet':
     DATABASES['default']['NAME'] = 'hnsxplorer_testnet'
     DATABASES['default']['USER'] = 'hnsxplorer_testnet'

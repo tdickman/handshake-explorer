@@ -1,3 +1,4 @@
+from django.db.models import Max
 from django.shortcuts import redirect, render
 import math
 import re
@@ -84,16 +85,21 @@ def name(request, name):
         raise Exception('Invalid name (no events found)')
     # Find closest OPEN event
     open_block = next(e for e in events if e.action == models.Event.EventAction.OPEN.value).block_id
+    auction_status = hsd.get_auction_status(open_block)
     auction_state = hsd.get_auction_state(open_block)
     return render(request, 'explorer/name.html', context={
         'name': name,
         'events': events,
-        'auction_state': auction_state
+        'auction_state': auction_state,
+        'auction_status': auction_status
     })
 
 
 def names(request):
-    names = models.Name.objects.all()
+    names = list(models.Event.objects.filter(action='OPEN').values('name__name').annotate(Max('block')).order_by('-block__max'))
+    for name in names:
+        name['state'] = hsd.get_auction_state(name['block__max'])
+
     return render(request, 'explorer/names.html', context={
         'names': names
     })

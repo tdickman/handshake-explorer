@@ -13,16 +13,20 @@
           <td>.{{ name }}</td>
         </tr>
         <tr>
+          <td class="label">Current State</td>
+          <td>{{ auction_state }}</td>
+        </tr>
+        <tr>
           <td class="label">Open State</td>
-          <td>{{ auction_state.open_completed }} / {{ auction_state.open_total }} blocks</td>
+          <td>{{ auction_status.open_completed }} / {{ auction_status.open_total }} blocks</td>
         </tr>
         <tr>
           <td class="label">Bidding State</td>
-          <td>{{ auction_state.bidding_completed }} / {{ auction_state.bidding_total }} blocks</td>
+          <td>{{ auction_status.bidding_completed }} / {{ auction_status.bidding_total }} blocks</td>
         </tr>
         <tr>
           <td class="label">Reveal State</td>
-          <td>{{ auction_state.reveal_completed }} / {{ auction_state.reveal_total }} blocks</td>
+          <td>{{ auction_status.reveal_completed }} / {{ auction_status.reveal_total }} blocks</td>
         </tr>
       </tbody>
     </table>
