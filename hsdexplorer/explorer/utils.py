@@ -30,7 +30,7 @@ def is_transaction(value):
 
 
 def is_name(value):
-    return models.Name.objects.get(name=name)
+    return len(models.Name.objects.filter(name=value)) > 0
 
 
 class ChoiceEnum(Enum):
