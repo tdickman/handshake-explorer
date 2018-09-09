@@ -90,7 +90,7 @@ def name(request, name):
         'events': events,
         'auction_state': auction_state,
         'auction_status': auction_status,
-        'time_remaining_minutes': int(time_remaining / 60)
+        'time_remaining_minutes': int(time_remaining / 60) if time_remaining else None
     })
 
 
@@ -110,7 +110,7 @@ def names(request, page=1):
 
 
 def search(request):
-    value = request.GET['value']
+    value = request.GET['value'].strip()
     if hsd.is_address(value):
         return redirect('address', address=value)
     if hsd.is_block(value):

@@ -3,6 +3,7 @@ import codecs
 import datetime
 import json
 import pytz
+import re
 import requests
 import subprocess
 
@@ -52,6 +53,8 @@ def get_auction_state(open_block):
 def get_time_remaining(open_block):
     auction_status = get_auction_status(open_block)
     current_state = get_auction_state(open_block).lower()
+    if current_state == 'live':
+        return
     blocks_completed = auction_status['{}_completed'.format(current_state)]
     blocks_total = auction_status['{}_total'.format(current_state)]
     return (blocks_total - blocks_completed) * settings.BLOCK_TIME_SECONDS
@@ -225,5 +228,3 @@ def is_transaction(value):
 
 def is_name(value):
     return len(models.Name.objects.filter(name=value)) > 0
-
-
