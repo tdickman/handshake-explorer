@@ -10,6 +10,7 @@ It's built with python, django, and kubernetes. This is currently deployed to
 * Pipenv
 * Docker
 * pysql
+* Running copy of [hsd](https://github.com/handshake-org/hsd)
 
 ## Local Setup
 
@@ -57,7 +58,8 @@ We use skaffold to deploy this app to a kubernetes cluster.
 
 ```
 PASSWORD=$(openssl rand -base64 32)
-k create secret generic db --from-literal=password=$PASSWORD
+kubectl create secret generic db --from-literal=password=$PASSWORD
+kubectl create secret generic django --from-literal=secret-key=SECRET_KEY
 k exec -it postgres-... bash
 psql -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
   CREATE USER hnsxplorer_testnet with password '$PASSWORD';

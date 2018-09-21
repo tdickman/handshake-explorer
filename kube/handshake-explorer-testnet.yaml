@@ -86,6 +86,11 @@ spec:
               secretKeyRef:
                 name: db
                 key: password
+          - name: DJANGO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: django
+                key: secret-key
         livenessProbe:
           httpGet:
             path: /_/healthz
