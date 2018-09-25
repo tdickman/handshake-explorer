@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'NO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -84,8 +84,8 @@ WSGI_APPLICATION = 'hsdexplorer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hnsxplorer_dev',
-        'USER': 'hnsxplorer_dev',
+        'NAME': 'hnsxplorer_testnet',
+        'USER': 'hnsxplorer_testnet',
         'PASSWORD': None,
         'HOST': 'postgres.infra',
         'PORT': 5432,
@@ -149,21 +149,13 @@ REDIS_HOST = 'redis'
 REDIS_PORT = 6379
 
 DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASSWORD')
+DEBUG = bool(os.environ.get('DEBUG', 0))
 
-if os.environ.get('ENV') == 'local':
-    DEBUG = True
-    ALLOWED_HOSTS.append('localhost')
-    ALLOWED_HOSTS.append('192.168.1.9')
-    HSD_URI = 'http://localhost:13037'
-    REDIS_HOST = 'localhost'
-    REDIS_PORT = 6379
-    DATABASES['default']['HOST'] = 'localhost'
-    DATABASES['default']['PASSWORD'] = 'password'
-    INTERNAL_IPS = ['192.168.1.18', '192.168.1.36']
-elif os.environ.get('ENV') == 'testnet':
-    DATABASES['default']['NAME'] = 'hnsxplorer_testnet'
-    DATABASES['default']['USER'] = 'hnsxplorer_testnet'
-elif os.environ.get('ENV') == 'mainnet':
+# Allow users to append an allowed host for local dev
+if os.environ.get('ALLOWED_HOST'):
+    ALLOWED_HOSTS.append(os.environ['ALLOWED_HOST'])
+
+if os.environ.get('ENV') == 'mainnet':
     DATABASES['default']['NAME'] = 'hnsxplorer_mainnet'
     DATABASES['default']['USER'] = 'hnsxplorer_mainnet'
 

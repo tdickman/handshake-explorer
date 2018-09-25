@@ -6,50 +6,23 @@ It's built with python, django, and kubernetes. This is currently deployed to
 
 ## Requirements
 
-* Python 3.5+
-* Pipenv
 * Docker
-* pysql
-* Running copy of [hsd](https://github.com/handshake-org/hsd)
 
 ## Local Setup
 
 ```
 git clone git@github.com:tdickman/handshake-explorer.git
-pipenv shell --three
-pipenv install
+docker-compose up
 ```
 
-This project uses postgres to store and query certain blockchain information
-that is not directly accessible using the handshake api. It also uses redis to
-store queue information for the background celery tasks that retrieve this
-data.
-
-Database:
+This will start the django app, and all dependent services. See the comments in
+`docker-compose.yml` for more details. Most changes will be picked up
+automatically, but any scss changes will require you to stop the app and run
+the following:
 
 ```
-docker run -d -p 5432:5432 postgres:10.5
-psql -h localhost -U postgres -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
-  CREATE USER hnsxplorer_dev;
-  CREATE DATABASE hnsxplorer_dev;
-  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer_dev TO hnsxplorer_dev;
-EOSQL
-python hsdexplorer/manage.py migrate
-```
-
-Redis:
-
-```
-docker run -d -p 6379:6379 redis
-```
-
-## Running
-
-```
-cd hsdexplorer
-python manage.py compilescss
-python manage.py runserver 0.0.0.0:8000
-celery -A hsdexplorer worker -l info -B  # -B is optional -> used if celery beat is enabled
+docker-compose build
+docker-compose up
 ```
 
 ## Deployment
