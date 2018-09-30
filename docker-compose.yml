@@ -42,7 +42,7 @@ services:
   handshake-node:
     image: tdickman/hsd:latest
     ports: ['13037:13037']
-    command: ["hsd", "--index-address=true", "--index-tx=true", "--http-host=0.0.0.0", "--no-auth"]
+    command: ["hsd", "--index-address=true", "--index-tx=true", "--http-host=0.0.0.0", "--no-auth", "--log-level=info"]
 
   # Runs db migrations at startup
   migration:
