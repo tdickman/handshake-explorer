@@ -6,7 +6,7 @@ RUN         apt update && apt install -y nodejs libunbound-dev && rm -rf /var/li
 WORKDIR     /app
 RUN         pip install pipenv
 ADD         Pipfile* /tmp/
-RUN         cd /tmp && pipenv install --skip-lock --system --deploy
+RUN         cd /tmp && pipenv install --system --deploy
 
 ADD			hsdexplorer/hsdbin/package.json /app/hsdbin/
 RUN			cd hsdbin && npm install
