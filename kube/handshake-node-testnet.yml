@@ -40,4 +40,17 @@ spec:
       restartPolicy: Always
       volumes:
         - name: hsd-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: hsd-data
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: hsd-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  storageClassName: ssd
