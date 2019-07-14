@@ -7,7 +7,7 @@ build:
 deploy:
   kubectl:
     manifests:
-    - ./kube/handshake-explorer*
+    - ./kube/*.yaml
 profiles:
 - name: gcb
   build:

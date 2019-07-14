@@ -31,7 +31,7 @@ spec:
         app: handshake-node
     spec:
       containers:
-        - image: tdickman/hsd:latest
+        - image: tdickman/hsd:testnet4-patched2
           name: handshake-node
           command: ["hsd", "--index-address=true", "--index-tx=true", "--http-host=0.0.0.0", "--no-auth"]
           volumeMounts:

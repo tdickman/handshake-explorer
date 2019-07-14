@@ -40,7 +40,7 @@ services:
   # A forked copy of handshakes hsd node that includes a few open prs against
   # the hsd project
   handshake-node:
-    image: tdickman/hsd:latest
+    image: tdickman/hsd:testnet4-patched2
     ports: ['13037:13037']
     command: ["hsd", "--index-address=true", "--index-tx=true", "--http-host=0.0.0.0", "--no-auth", "--log-level=info"]
 
