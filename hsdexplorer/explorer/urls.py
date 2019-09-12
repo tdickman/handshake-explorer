@@ -18,4 +18,5 @@ urlpatterns = [
     re_path('tx/(?P<tx_hash>[a-f0-9]{64})$', views.transaction, name='transaction'),
     re_path('address/(?P<address>[a-z0-9]{42})$', views.address, name='address'),
     re_path('address/(?P<address>[a-z0-9]{42})/page/(?P<page>\d+)$', views.address),
+    path('robots.txt', views.robots),
 ]

@@ -1,5 +1,6 @@
 from django.db.models import Max
 from django.shortcuts import redirect, render
+from django.http import HttpResponse
 import math
 import re
 
@@ -123,3 +124,7 @@ def search(request):
 
 def about(request):
     return render(request, 'explorer/about.html')
+
+
+def robots(request):
+    return HttpResponse('User-agent: *\nDisallow:\n\nUser-Agent: MJ12bot\nCrawl-Delay: 30', content_type="text/plain")
