@@ -12,9 +12,7 @@ whitenoise = "*"
 requests = "*"
 "pysha3" = "*"
 django-tz-detect = "*"
-# workaround for https://github.com/niwinz/django-redis/issues/342
-# can be removed once fixed
-redis = ">=2.10.0,<3.0.0"
+redis = "*"
 "psycopg2-binary" = "*"
 django-debug-toolbar = "*"
 libsass = "*"
