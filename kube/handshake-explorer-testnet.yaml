@@ -2,7 +2,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: handshake-explorer
-  namespace: handshake-testnet
   annotations:
     certmanager.k8s.io/cluster-issuer: letsencrypt-prod
     certmanager.k8s.io/acme-http01-edit-in-place: "true"
@@ -43,7 +42,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: handshake-explorer
-  namespace: handshake-testnet
 spec:
   ports:
     - port: 8000
@@ -56,7 +54,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: handshake-explorer
-  namespace: handshake-testnet
   labels:
     app: handshake-explorer
 spec:
@@ -110,7 +107,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: handshake-explorer-celery-beat
-  namespace: handshake-testnet
   labels:
     app: handshake-explorer-celery-beat
 spec:
@@ -144,7 +140,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: handshake-explorer-celery
-  namespace: handshake-testnet
   labels:
     app: handshake-explorer-celery
 spec:
