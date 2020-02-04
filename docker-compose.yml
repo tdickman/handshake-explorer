@@ -30,8 +30,8 @@ services:
   postgres.infra:
     image: postgres:10.5
     environment:
-      - 'POSTGRES_USER=hnsxplorer_testnet'
-      - 'POSTGRES_DB=hnsxplorer_testnet'
+      - 'POSTGRES_USER=hnsxplorer'
+      - 'POSTGRES_DB=hnsxplorer'
 
   # Caching + celery queue
   redis:
@@ -40,8 +40,8 @@ services:
   # A forked copy of handshakes hsd node that includes a few open prs against
   # the hsd project
   handshake-node:
-    image: tdickman/hsd:testnet4-stable
-    ports: ['13037:13037']
+    image: tdickman/hsd:v2.0.1
+    ports: ['12037:12037']
     command: ["hsd", "--index-address=true", "--index-tx=true", "--http-host=0.0.0.0", "--no-auth", "--log-level=info"]
 
   # Runs db migrations at startup

@@ -84,8 +84,8 @@ WSGI_APPLICATION = 'hsdexplorer.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'hnsxplorer_testnet',
-        'USER': 'hnsxplorer_testnet',
+        'NAME': 'hnsxplorer',
+        'USER': 'hnsxplorer',
         'PASSWORD': None,
         'HOST': 'postgres.infra',
         'PORT': 5432,
@@ -142,7 +142,7 @@ BIDDING_PERIOD = 288
 REVEAL_PERIOD = 576
 BLOCK_TIME_SECONDS = 204.255
 
-HSD_URI = 'http://handshake-node:13037'
+HSD_URI = 'http://handshake-node:12037'
 
 # Celery
 REDIS_HOST = 'redis'
@@ -154,10 +154,6 @@ DEBUG = bool(os.environ.get('DEBUG', 0))
 # Allow users to append an allowed host for local dev
 if os.environ.get('ALLOWED_HOST'):
     ALLOWED_HOSTS.append(os.environ['ALLOWED_HOST'])
-
-if os.environ.get('ENV') == 'mainnet':
-    DATABASES['default']['NAME'] = 'hnsxplorer_mainnet'
-    DATABASES['default']['USER'] = 'hnsxplorer_mainnet'
 
 CELERY_BROKER_URL = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)
 CELERY_RESULT_BACKEND = 'redis://{}:{}'.format(REDIS_HOST, REDIS_PORT)

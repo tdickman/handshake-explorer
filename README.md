@@ -35,9 +35,9 @@ kubectl create secret generic db --from-literal=password=$PASSWORD
 kubectl create secret generic django --from-literal=secret-key=SECRET_KEY
 k exec -it postgres-... bash
 psql -v ON_ERROR_STOP=1 --username postgres -d postgres <<-EOSQL
-  CREATE USER hnsxplorer_testnet with password '$PASSWORD';
-  CREATE DATABASE hnsxplorer_testnet;
-  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer_testnet TO hnsxplorer_testnet;
+  CREATE USER hnsxplorer with password '$PASSWORD';
+  CREATE DATABASE hnsxplorer;
+  GRANT ALL PRIVILEGES ON DATABASE hnsxplorer TO hnsxplorer;
 EOSQL
 skaffold run
 ```

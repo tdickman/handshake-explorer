@@ -76,8 +76,6 @@ spec:
         ports:
         - containerPort: 8000
         env:
-          - name: ENV
-            value: 'testnet'
           - name: DB_PASSWORD
             valueFrom:
               secretKeyRef:
