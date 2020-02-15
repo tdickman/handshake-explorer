@@ -22,9 +22,6 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('SECRET_KEY', 'NO_KEY')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
-
 ALLOWED_HOSTS = ['testnet.hnsxplorer.com', 'hnsxplorer.com', 'k8s-healthcheck', 'localhost']
 
 
@@ -129,7 +126,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.signed_cookies'
 STATIC_URL = '/static/'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-STATICFILES_FINDERS =  [
+STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'sass_processor.finders.CssFinder',
@@ -137,10 +134,10 @@ STATICFILES_FINDERS =  [
 
 DEFAULT_PAGE_SIZE = 50
 
-OPEN_PERIOD = 73
-BIDDING_PERIOD = 288
-REVEAL_PERIOD = 576
-BLOCK_TIME_SECONDS = 204.255
+OPEN_PERIOD = 37
+BIDDING_PERIOD = 720
+REVEAL_PERIOD = 1440
+BLOCK_TIME_SECONDS = 10 * 60
 
 HSD_URI = 'http://handshake-node:12037'
 
@@ -150,6 +147,8 @@ REDIS_PORT = 6379
 
 DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASSWORD')
 DEBUG = bool(os.environ.get('DEBUG', 0))
+DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Allow users to append an allowed host for local dev
 if os.environ.get('ALLOWED_HOST'):

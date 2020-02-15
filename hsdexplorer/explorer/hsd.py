@@ -1,4 +1,5 @@
 from django.conf import settings
+from django.http import Http404
 import codecs
 import datetime
 import json
@@ -110,9 +111,9 @@ def _format_tx(tx, address=None, decode_resource=False):
     if address:
         tx['direction'] = None
         if len([o for o in tx['outputs'] if o.get('address') == address]):
-            tx['direction'] = 'incoming' 
+            tx['direction'] = 'incoming'
         if len([i for i in tx['inputs'] if i.get('address') == address]):
-            tx['direction'] = 'outgoing' 
+            tx['direction'] = 'outgoing'
     return tx
 
 
@@ -199,6 +200,8 @@ def _decode_name(hex_val):
 
 def _request(path):
     resp = requests.get('{}{}'.format(settings.HSD_URI, path), timeout=5)
+    if resp.status_code != 200:
+        raise Http404
     return resp.json()
 
 
@@ -207,9 +210,9 @@ def is_address(value):
 
 
 def is_block(value):
-    if re.compile('[a-f0-9]{64}').match(value):
+    if value.isdigit():
         try:
-            hsd.get_block(value)
+            get_block(value)
             return True
         except json.decoder.JSONDecodeError:
             pass
@@ -219,7 +222,7 @@ def is_block(value):
 def is_transaction(value):
     if re.compile('[a-f0-9]{64}').match(value):
         try:
-            hsd.get_transaction(value)
+            get_transaction(value)
             return True
         except json.decoder.JSONDecodeError:
             pass
