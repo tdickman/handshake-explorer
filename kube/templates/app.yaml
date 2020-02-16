@@ -72,7 +72,7 @@ spec:
     spec:
       containers:
       - name: handshake-explorer
-        image: gcr.io/hello-world-392/handshake-explorer
+        image: handshake-explorer
         ports:
         - containerPort: 8000
         env:
@@ -121,7 +121,7 @@ spec:
     spec:
       containers:
       - name: handshake-explorer-celery-beat
-        image: gcr.io/hello-world-392/handshake-explorer
+        image: handshake-explorer
         command: ["celery", "-A", "hsdexplorer", "beat", "-l", "info"]
         env:
           - name: ENV
@@ -154,7 +154,7 @@ spec:
     spec:
       containers:
       - name: handshake-explorer-celery
-        image: gcr.io/hello-world-392/handshake-explorer
+        image: handshake-explorer
         command: ["celery", "-A", "hsdexplorer", "worker", "-l", "info"]
         env:
           - name: ENV

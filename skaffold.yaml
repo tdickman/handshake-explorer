@@ -1,15 +1,11 @@
-apiVersion: skaffold/v1alpha5
+apiVersion: skaffold/v1
 kind: Config
 build:
   artifacts:
-  - image: gcr.io/hello-world-392/handshake-explorer
+  - image: handshake-explorer
     context: .
 deploy:
-  kubectl:
-    manifests:
-    - ./kube/*.yaml
-profiles:
-- name: gcb
-  build:
-    googleCloudBuild:
-      projectId: hello-world-392
+  helm:
+    releases:
+    - name: handshake-explorer
+      chartPath: kube

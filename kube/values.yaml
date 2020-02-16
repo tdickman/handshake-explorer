@@ -1,0 +1,9 @@
+image:
+  repository: handshake-explorer
+  tag: latest
+
+postgresql:
+  deploy: true
+
+redis:
+  deploy: true
