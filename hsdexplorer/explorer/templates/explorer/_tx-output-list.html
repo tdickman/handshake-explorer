@@ -3,6 +3,7 @@
   {% for output in tx.outputs %}
   <li>
   {% if output.action == 'NONE' %}{{ output.value | to_hns }} HNS{% endif %}
+  {% if output.action == 'CLAIM' %}claim for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
   {% if output.action == 'OPEN' %}auction open for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
   {% if output.action == 'BID' %}{{ output.value | to_hns }} HNS bid for <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
   {% if output.action == 'REVEAL' %}{{ output.value | to_hns }} HNS for auction reveal of <a href="/name/{{ output.name }}">{{ output.name }}</a>{% endif %}
