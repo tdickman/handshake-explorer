@@ -100,7 +100,6 @@ def names(request, page=1):
     for name in pagified['data']:
         name['state'] = hsd.get_auction_state(name['block__max'])
 
-
     return render(request, 'explorer/names.html', context={
         'names': pagified['data'],
         'current_page': pagified['current_page'],
