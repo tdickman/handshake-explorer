@@ -18,20 +18,28 @@
         </tr>
         <tr>
           <td class="label">Current State</td>
-          <td>{{ auction_state }}</td>
+          <td>{{ state }}</td>
         </tr>
+        {% if type == 'auction' %}
         <tr>
           <td class="label">Open State</td>
-          <td>{{ auction_status.open_completed }} / {{ auction_status.open_total }} blocks</td>
+          <td>{{ status.open_completed }} / {{ status.open_total }} blocks</td>
         </tr>
         <tr>
           <td class="label">Bidding State</td>
-          <td>{{ auction_status.bidding_completed }} / {{ auction_status.bidding_total }} blocks</td>
+          <td>{{ status.bidding_completed }} / {{ status.bidding_total }} blocks</td>
         </tr>
         <tr>
           <td class="label">Reveal State</td>
-          <td>{{ auction_status.reveal_completed }} / {{ auction_status.reveal_total }} blocks</td>
+          <td>{{ status.reveal_completed }} / {{ status.reveal_total }} blocks</td>
         </tr>
+        {% endif %}
+        {% if type == 'claim' %}
+        <tr>
+          <td class="label">Claim State</td>
+          <td>{{ status.claiming_completed }} / {{ status.claiming_total }} blocks</td>
+        </tr>
+        {% endif %}
       </tbody>
     </table>
   </div>

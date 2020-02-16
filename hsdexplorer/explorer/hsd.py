@@ -51,13 +51,42 @@ def get_auction_state(open_block):
     return 'Live'
 
 
-def get_time_remaining(open_block):
+def get_auction_time_remaining(open_block):
     auction_status = get_auction_status(open_block)
     current_state = get_auction_state(open_block).lower()
     if current_state == 'live':
         return
     blocks_completed = auction_status['{}_completed'.format(current_state)]
     blocks_total = auction_status['{}_total'.format(current_state)]
+    return (blocks_total - blocks_completed) * settings.BLOCK_TIME_SECONDS
+
+
+def get_claim_status(claim_block):
+    info = get_info()
+    blocks_since_claim = info['chain']['height'] - claim_block
+    return {
+        'claiming_completed': max(min(blocks_since_claim, settings.CLAIM_PERIOD), 0),
+        'claiming_total': settings.CLAIM_PERIOD
+    }
+
+
+def get_claim_state(claim_block):
+    info = get_info()
+    blocks_since_claim = info['chain']['height'] - claim_block
+    if blocks_since_claim < settings.CLAIM_PERIOD:
+        return 'Claiming'
+
+    return 'Live'
+
+
+def get_claim_time_remaining(claim_block):
+    claim_status = get_claim_status(claim_block)
+    current_state = get_claim_state(claim_block).lower()
+    if current_state == 'live':
+        return
+
+    blocks_completed = claim_status['{}_completed'.format(current_state)]
+    blocks_total = claim_status['{}_total'.format(current_state)]
     return (blocks_total - blocks_completed) * settings.BLOCK_TIME_SECONDS
 
 
@@ -150,6 +179,8 @@ def _format_output(output, decode_resource=False):
     resp['name_hash'] = items[0]
     if action == 'OPEN':
         # items[1] == 00000000
+        resp['name'] = _decode_name(items[2])
+    elif action == 'CLAIM':
         resp['name'] = _decode_name(items[2])
     elif action == 'BID':
         resp['start_height'] = _decode_u32(items[1])

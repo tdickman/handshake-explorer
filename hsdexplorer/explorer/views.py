@@ -80,18 +80,30 @@ def name(request, name):
     events = models.Event.objects.filter(name__name=name).order_by('-block', '-block_index', '-output_index')
     if not len(events):
         raise Http404('Invalid name (no events found)')
-    # Find closest OPEN event
-    open_block = next(e for e in events if e.action == models.Event.EventAction.OPEN.value).block_id
-    auction_status = hsd.get_auction_status(open_block)
-    auction_state = hsd.get_auction_state(open_block)
-    time_remaining = hsd.get_time_remaining(open_block)
+    # Find closest OPEN or CLAIM event
+    event = next(e for e in events if e.action in [models.Event.EventAction.OPEN.value, models.Event.EventAction.CLAIM.value])
+    if event.action == models.Event.EventAction.OPEN.value:
+        type_ = 'auction'
+        status = hsd.get_auction_status(event.block_id)
+        state = hsd.get_auction_state(event.block_id)
+        time_remaining = hsd.get_auction_time_remaining(event.block_id)
+    elif event.action == models.Event.EventAction.CLAIM.value:
+        type_ = 'claim'
+        status = hsd.get_claim_status(event.block_id)
+        state = hsd.get_claim_state(event.block_id)
+        time_remaining = hsd.get_claim_time_remaining(event.block_id)
+    else:
+        raise Exception('This should not be possible')
+
     return render(request, 'explorer/name.html', context={
+        'type': type_,
         'name': name,
         'events': events,
-        'auction_state': auction_state,
-        'auction_status': auction_status,
+        'state': state,
+        'status': status,
         'time_remaining_minutes': int(time_remaining / 60) if time_remaining else None
     })
+
 
 
 def names(request, page=1):

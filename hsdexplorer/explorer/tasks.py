@@ -2,7 +2,7 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from django.conf import settings
 from django.db import transaction
-import json
+from django.http import Http404
 import redis
 
 import explorer.history.write as hwrite
@@ -26,7 +26,7 @@ def process_next_block():
         while block:
             try:
                 block = hsd.get_block(current_block_height, decode_resource=True)
-            except json.decoder.JSONDecodeError:
+            except Http404:
                 # Stop processing once we hit to max block
                 return
 
