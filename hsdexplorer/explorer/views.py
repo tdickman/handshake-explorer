@@ -1,8 +1,7 @@
 from django.db.models import Max
 from django.shortcuts import redirect, render
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 import math
-import re
 
 from . import hsd, math as hsdmath, models, utils
 
@@ -80,7 +79,7 @@ def address(request, address, page=1):
 def name(request, name):
     events = models.Event.objects.filter(name__name=name).order_by('-block', '-block_index', '-output_index')
     if not len(events):
-        raise Exception('Invalid name (no events found)')
+        raise Http404('Invalid name (no events found)')
     # Find closest OPEN event
     open_block = next(e for e in events if e.action == models.Event.EventAction.OPEN.value).block_id
     auction_status = hsd.get_auction_status(open_block)
