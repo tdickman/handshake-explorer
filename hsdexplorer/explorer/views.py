@@ -118,6 +118,7 @@ def search(request):
         return redirect('transaction', tx_hash=value)
     if hsd.is_name(value):
         return redirect('name', name=value)
+    return redirect('/')
 
 
 def about(request):
