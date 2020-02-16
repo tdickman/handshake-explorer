@@ -1,0 +1,41 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+spec:
+  ports:
+    - port: 5432
+      name: postgres
+  clusterIP: None
+  selector:
+    app: postgres
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres
+spec:
+  selector:
+    matchLabels:
+      app: postgres  # has to match .spec.template.metadata.labels
+  serviceName: postgres
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: postgres  # has to match .spec.selector.matchLabels
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:9.6
+          env:
+            - name: POSTGRES_USER
+              value: hnsxplorer
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db
+                  key: password
+          ports:
+            - containerPort: 5432
+              name: postgres

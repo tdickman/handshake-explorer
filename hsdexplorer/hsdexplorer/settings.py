@@ -84,7 +84,7 @@ DATABASES = {
         'NAME': 'hnsxplorer',
         'USER': 'hnsxplorer',
         'PASSWORD': None,
-        'HOST': 'postgres.infra',
+        'HOST': 'postgres',
         'PORT': 5432,
     }
 }
