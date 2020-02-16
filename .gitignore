@@ -1,3 +1,4 @@
+*.pyc
 *.swp
 GeoIP.dat
 node_modules/

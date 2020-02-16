@@ -119,6 +119,26 @@ spec:
       labels:
         app: handshake-explorer-celery-beat
     spec:
+      initContainers:
+      - name: migrations
+        image: gcr.io/hello-world-392/handshake-explorer
+        command:
+        - /bin/bash
+        - -c
+        - echo "Begin Migration ..." &&
+          python3 "/app/manage.py" migrate --noinput &&
+          echo "Migration Completed"
+        env:
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db
+                key: password
+          - name: DJANGO_SECRET_KEY
+            valueFrom:
+              secretKeyRef:
+                name: django
+                key: secret-key
       containers:
       - name: handshake-explorer-celery-beat
         image: gcr.io/hello-world-392/handshake-explorer
