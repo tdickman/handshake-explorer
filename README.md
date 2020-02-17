@@ -33,6 +33,5 @@ We use skaffold to deploy this app to a kubernetes cluster.
 PASSWORD=$(openssl rand -base64 32)
 kubectl create secret generic db --from-literal=password=$PASSWORD
 kubectl create secret generic django --from-literal=secret-key=SECRET_KEY
-skaffold run
-ksh handshake-explorer python manage.py migrate
+skaffold dev --port-forward
 ```
