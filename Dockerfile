@@ -1,7 +1,7 @@
-FROM        python:3.5
+FROM        python:3.6
 
-RUN         curl -sL https://deb.nodesource.com/setup_8.x | bash -
-RUN         apt update && apt install -y nodejs npm libunbound-dev && rm -rf /var/lib/apt/lists/*
+RUN         curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN         apt update && apt install -y nodejs libunbound-dev && rm -rf /var/lib/apt/lists/*
 
 WORKDIR     /app
 RUN         pip install pipenv
