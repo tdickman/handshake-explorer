@@ -24,10 +24,13 @@ SECRET_KEY = os.environ.get('SECRET_KEY', 'NO_KEY')
 
 ALLOWED_HOSTS = ['testnet.hnsxplorer.com', 'hnsxplorer.com', 'k8s-healthcheck', 'localhost']
 
+DEBUG = bool(os.environ.get('DEBUG', 0))
+DEBUG = True
+DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Application definition
 
-INSTALLED_APPS = [
+INSTALLED_APPS = [x for x in [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -37,8 +40,9 @@ INSTALLED_APPS = [
     'sass_processor',
     'explorer',
     'tz_detect',
-    'debug_toolbar',
-]
+    ('debug_toolbar' if DEBUG else None),
+    'django_extensions',
+] if x]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -149,9 +153,6 @@ REDIS_HOST = 'redis'
 REDIS_PORT = 6379
 
 DATABASES['default']['PASSWORD'] = os.environ.get('DB_PASSWORD')
-DEBUG = bool(os.environ.get('DEBUG', 0))
-DEBUG = True
-DEBUG_PROPAGATE_EXCEPTIONS = True
 
 # Allow users to append an allowed host for local dev
 if os.environ.get('ALLOWED_HOST'):

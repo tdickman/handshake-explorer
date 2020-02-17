@@ -11,6 +11,7 @@
         <tr>
           <th scope="col">Name</th>
           <th scope="col">State</th>
+          <th scope="col">Last Change</th>
         </tr>
       </thead>
       <tbody>
@@ -18,6 +19,7 @@
         <tr>
           <td><a href="/name/{{ entry.name__name }}">{{ entry.name__name }}</a></td>
           <td>{{ entry.state }}</td>
+          <td>{{ entry.block__max }}</td>
         </tr>
         {% endfor %}
       </tbody>

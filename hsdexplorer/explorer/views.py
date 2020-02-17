@@ -107,10 +107,15 @@ def name(request, name):
 
 
 def names(request, page=1):
-    names = models.Event.objects.filter(action='OPEN').values('name__name').annotate(Max('block')).order_by('-block__max')
+    names = models.Event.objects.filter(action__in=['OPEN', 'CLAIM']).values('name__name', 'action').annotate(Max('block')).order_by('-block__max')
     pagified = utils.pagify(names, page)
     for name in pagified['data']:
-        name['state'] = hsd.get_auction_state(name['block__max'])
+        if name['action'] == 'OPEN':
+            name['state'] = hsd.get_auction_state(name['block__max'])
+        elif name['action'] == 'CLAIM':
+            name['state'] = hsd.get_claim_state(name['block__max'])
+        else:
+            raise Exception('Unexpected action {}'.format(name['action']))
 
     return render(request, 'explorer/names.html', context={
         'names': pagified['data'],
