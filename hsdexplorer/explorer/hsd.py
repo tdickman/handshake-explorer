@@ -237,7 +237,7 @@ def _request(path):
 
 
 def is_address(value):
-    return re.compile('[a-z0-9]{42}').match(value) and value[:2] == 'ts'
+    return re.compile('[a-z0-9]{42}').match(value) and value[:2] == 'hs'
 
 
 def is_block(value):
