@@ -25,9 +25,16 @@ spec:
       labels:
         app: postgres  # has to match .spec.selector.matchLabels
     spec:
+      volumes:
+        - name: postgres-data
+          persistentVolumeClaim:
+            claimName: postgres-data
       containers:
         - name: postgres
           image: postgres:9.6
+          volumeMounts:
+            - mountPath: /var/lib/postgresql
+              name: postgres-data
           env:
             - name: POSTGRES_USER
               value: hnsxplorer
@@ -39,3 +46,15 @@ spec:
           ports:
             - containerPort: 5432
               name: postgres
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-data
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 5Gi
+  # storageClassName: ssd

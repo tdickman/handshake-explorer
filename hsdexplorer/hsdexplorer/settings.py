@@ -42,6 +42,7 @@ INSTALLED_APPS = [x for x in [
     'tz_detect',
     ('debug_toolbar' if DEBUG else None),
     'django_extensions',
+    'memoize',
 ] if x]
 
 MIDDLEWARE = [

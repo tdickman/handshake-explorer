@@ -21,6 +21,7 @@ django-sass-processor = "*"
 django-redis = "*"
 celery = "*"
 django-extensions = "*"
+django-memoize = "*"
 
 [requires]
 python_version = "3.6"

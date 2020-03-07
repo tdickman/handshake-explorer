@@ -7,6 +7,7 @@ import pytz
 import re
 import requests
 import subprocess
+from memoize import memoize
 
 from . import models
 from .utils import cache_function
@@ -106,6 +107,7 @@ def get_blocks(offset=0, count=20):
     return blocks
 
 
+@memoize(timeout=60 * 60 * 24)
 def get_block(block_hash_or_height, decode_resource=False):
     return _format_block(_request('/block/{}'.format(block_hash_or_height)), decode_resource=decode_resource)
 
@@ -177,32 +179,33 @@ def _format_output(output, decode_resource=False):
 
     # Process all other actions
     resp['name_hash'] = items[0]
-    if action == 'OPEN':
-        # items[1] == 00000000
-        resp['name'] = _decode_name(items[2])
-    elif action == 'CLAIM':
-        resp['name'] = _decode_name(items[2])
-    elif action == 'BID':
-        resp['start_height'] = _decode_u32(items[1])
-        resp['name'] = _decode_name(items[2])
-        resp['value'] = output['value']
-        # items[3] == blind
-    elif action == 'REVEAL':
-        resp['start_height'] = _decode_u32(items[1])
-        resp['nonce'] = items[2]
-        resp['value'] = output['value']
-    elif action == 'REGISTER':
-        resp['start_height'] = _decode_u32(items[1])
-        resp['data'] = _decode_resource(items[2])
-    elif action == 'REDEEM':
-        resp['start_height'] = _decode_u32(items[1])
-        resp['value'] = output['value']
-    elif action == 'UPDATE':
-        resp['start_height'] = _decode_u32(items[1])
-        resp['data'] = _decode_resource(items[2])
-    elif action == 'RENEW':
-        resp['start_height'] = _decode_u32(items[1])
-        resp['renewal_block_hash'] = _decode_u32(items[2])
+    if decode_resource:
+        if action == 'OPEN':
+            # items[1] == 00000000
+            resp['name'] = _decode_name(items[2])
+        elif action == 'CLAIM':
+            resp['name'] = _decode_name(items[2])
+        elif action == 'BID':
+            resp['start_height'] = _decode_u32(items[1])
+            resp['name'] = _decode_name(items[2])
+            resp['value'] = output['value']
+            # items[3] == blind
+        elif action == 'REVEAL':
+            resp['start_height'] = _decode_u32(items[1])
+            resp['nonce'] = items[2]
+            resp['value'] = output['value']
+        elif action == 'REGISTER':
+            resp['start_height'] = _decode_u32(items[1])
+            resp['data'] = _decode_resource(items[2])
+        elif action == 'REDEEM':
+            resp['start_height'] = _decode_u32(items[1])
+            resp['value'] = output['value']
+        elif action == 'UPDATE':
+            resp['start_height'] = _decode_u32(items[1])
+            resp['data'] = _decode_resource(items[2])
+        elif action == 'RENEW':
+            resp['start_height'] = _decode_u32(items[1])
+            resp['renewal_block_hash'] = _decode_u32(items[2])
 
     # Lookup the name if it isn't included in the transaction. This will fail
     # for new domains that we encounter when processing with celery, in which
@@ -222,7 +225,10 @@ def _decode_u32(hex_val):
 
 
 def _decode_resource(data):
-    return json.loads(subprocess.check_output(['node', 'hsdbin/decode.js', data]).decode())
+    try:
+        return json.loads(subprocess.check_output(['node', 'hsdbin/decode.js', data]).decode())
+    except Exception:
+        return ''
 
 
 def _decode_name(hex_val):
